@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISLA Insight Series</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #fafaf9; }
+        .font-serif { font-family: 'Crimson Pro', serif; }
+        .modal-enter { animation: modalIn 0.3s ease; }
+        @keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body class="text-stone-900">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white border-b border-stone-200">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                <div class="w-10 h-10 bg-stone-900 rounded-lg flex items-center justify-center text-amber-500 font-serif font-bold text-xl">I</div>
+                <div>
+                    <h1 class="font-serif font-bold text-lg">ISLA Insight Series</h1>
+                    <p class="text-xs text-stone-500 uppercase">Integrated Strategic Leadership Architecture</p>
+                </div>
+            </div>
+            <button onclick="toggleSearch()" class="p-2 hover:bg-stone-100 rounded-full"><i data-lucide="search" class="w-5 h-5"></i></button>
+        </div>
+        <div id="searchBar" class="hidden border-t bg-stone-50 px-4 py-3">
+            <input type="text" id="searchInput" placeholder="Cari insight..." class="w-full px-4 py-2 border rounded-lg" oninput="handleSearch(this.value)">
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="bg-stone-900 text-white py-20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="max-w-2xl">
+                <p class="text-amber-400 text-sm font-semibold mb-4">Research Series 2024-2025</p>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold mb-6">Membangun <span class="text-amber-400">Kepemimpinan Strategis</span> yang Berkelanjutan</h2>
+                <p class="text-stone-300 mb-8">Kumpulan riset mendalam tentang arsitektur organisasi modern, sistem kepemimpinan, tata kelola strategis, dan dampak transformasi digital.</p>
+                <div class="flex gap-4">
+                    <button onclick="scrollToContent()" class="px-6 py-3 bg-amber-600 hover:bg-amber-700 rounded-lg font-semibold">Jelajahi Insight</button>
+                    <button onclick="showFramework()" class="px-6 py-3 border border-white/20 hover:bg-white/10 rounded-lg">Lihat Framework</button>
+                </div>
+                <div class="mt-8 pt-6 border-t border-white/10 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center text-sm font-bold">YG</div>
+                    <div>
+                        <p class="font-semibold">Yanto Goutama</p>
+                        <p class="text-sm text-stone-400">Founder of ISLA</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <div class="bg-white border-b sticky top-16 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex gap-2 overflow-x-auto no-scrollbar">
+            <button onclick="filterCategory('all')" class="cat-btn px-4 py-2 bg-stone-900 text-white text-sm rounded-full" data-cat="all">Semua</button>
+            <button onclick="filterCategory('org-architecture')" class="cat-btn px-4 py-2 bg-stone-100 text-stone-700 text-sm rounded-full" data-cat="org-architecture">Organizational Architecture</button>
+            <button onclick="filterCategory('leadership')" class="cat-btn px-4 py-2 bg-stone-100 text-stone-700 text-sm rounded-full" data-cat="leadership">Leadership System</button>
+            <button onclick="filterCategory('governance')" class="cat-btn px-4 py-2 bg-stone-100 text-stone-700 text-sm rounded-full" data-cat="governance">Strategic Governance</button>
+            <button onclick="filterCategory('digital-ai')" class="cat-btn px-4 py-2 bg-stone-100 text-stone-700 text-sm rounded-full" data-cat="digital-ai">Digital & AI</button>
+            <button onclick="filterCategory('case-analysis')" class="cat-btn px-4 py-2 bg-stone-100 text-stone-700 text-sm rounded-full" data-cat="case-analysis">Case & Field Analysis</button>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <main id="mainContent" class="max-w-7xl mx-auto px-4 py-12">
+        <h3 class="font-serif text-3xl font-bold mb-8">Insight Terbaru</h3>
+        
+        <!-- Featured -->
+        <article class="group cursor-pointer mb-12" onclick="openArticle(0)">
+            <div class="grid md:grid-cols-2 gap-0 bg-white rounded-2xl overflow-hidden shadow-lg border border-stone-200">
+                <div class="relative h-64 md:h-auto">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    <div class="absolute top-4 left-4 bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full">Featured</div>
+                </div>
+                <div class="p-8 flex flex-col justify-center">
+                    <p class="text-amber-600 text-sm font-bold mb-2">Organizational Architecture</p>
+                    <h4 class="font-serif text-2xl font-bold mb-4 group-hover:text-amber-700 transition">Redesigning the Modern Enterprise: Arsitektur Organisasi Adaptif</h4>
+                    <p class="text-stone-600 mb-6">Bagaimana struktur organisasi tradisional yang rigid tidak lagi mampu menjawab tantangan volatilitas pasar modern.</p>
+                    <div class="flex items-center justify-between pt-4 border-t">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-gradient-to-br from-amber-600 to-orange-700 rounded-full flex items-center justify-center text-white text-xs font-bold">YG</div>
+                            <span class="text-sm font-semibold">Yanto Goutama</span>
+                        </div>
+                        <span class="text-amber-700 text-sm font-semibold">Baca Lengkap →</span>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="articlesGrid"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-400 py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-8 h-8 bg-stone-800 rounded-lg flex items-center justify-center text-amber-500 font-serif font-bold">I</div>
+                <span class="font-serif text-xl font-bold text-white">ISLA</span>
+            </div>
+            <p class="mb-4 max-w-md">Integrated Strategic Leadership Architecture — framework komprehensif untuk membangun organisasi yang adaptif dan berkelanjutan.</p>
+            <p class="text-sm">© 2025 ISLA Institute. Founded by Yanto Goutama.</p>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="articleModal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-stone-900/80" onclick="closeArticle()"></div>
+        <div class="absolute inset-0 overflow-y-auto p-4">
+            <article class="relative bg-white max-w-3xl mx-auto my-8 rounded-2xl shadow-2xl modal-enter overflow-hidden">
+                <button onclick="closeArticle()" class="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow z-10">✕</button>
+                <img id="mImg" src="" class="w-full h-64 object-cover">
+                <div class="p-8">
+                    <span id="mCat" class="text-amber-600 text-sm font-bold"></span>
+                    <h1 id="mTitle" class="font-serif text-3xl font-bold mt-2 mb-4"></h1>
+                    <div class="flex items-center gap-4 mb-6 text-sm text-stone-500 pb-6 border-b">
+                        <span id="mDate"></span>
+                        <span>•</span>
+                        <span id="mTime"></span>
+                    </div>
+                    <div id="mContent" class="prose max-w-none"></div>
+                    <div class="mt-8 pt-6 border-t flex justify-between items-center">
+                        <div class="flex gap-2">
+                            <button class="w-10 h-10 bg-stone-100 rounded-full flex items-center justify-center"><i data-lucide="linkedin" class="w-5 h-5"></i></button>
+                            <button class="w-10 h-10 bg-stone-100 rounded-full flex items-center justify-center"><i data-lucide="twitter" class="w-5 h-5"></i></button>
+                        </div>
+                        <button class="px-4 py-2 bg-stone-900 text-white rounded-lg flex items-center gap-2"><i data-lucide="download" class="w-4 h-4"></i> Download PDF</button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <!-- Framework Modal -->
+    <div id="frameworkModal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-stone-900/80" onclick="closeFramework()"></div>
+        <div class="absolute inset-0 flex items-center justify-center p-4">
+            <div class="bg-white max-w-2xl w-full rounded-2xl p-8 modal-enter">
+                <button onclick="closeFramework()" class="absolute top-4 right-4">✕</button>
+                <h2 class="font-serif text-3xl font-bold mb-6 text-center">5 Pilar ISLA</h2>
+                <div class="grid grid-cols-5 gap-4 mb-6">
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-stone-900 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-2 font-bold">1</div>
+                        <p class="text-xs font-bold">Org. Architecture</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-stone-900 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-2 font-bold">2</div>
+                        <p class="text-xs font-bold">Leadership</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-stone-900 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-2 font-bold">3</div>
+                        <p class="text-xs font-bold">Governance</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-stone-900 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-2 font-bold">4</div>
+                        <p class="text-xs font-bold">Digital & AI</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-12 h-12 bg-stone-900 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-2 font-bold">5</div>
+                        <p class="text-xs font-bold">Case Analysis</p>
+                    </div>
+                </div>
+                <p class="text-stone-600 text-center">ISLA percaya kepemimpinan efektif bukan hanya tentang individu visioner, tetapi <strong>arsitektur organisasi</strong> yang memungkinkan kepemimpinan muncul di semua level.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data
+        const articles = [
+            {id:0, title:"Redesigning the Modern Enterprise", cat:"org-architecture", catLabel:"Organizational Architecture", date:"3 Jan 2025", time:"18 min", img:"https://images.unsplash.com/photo-1552664730-d307ca884978?w=800", excerpt:"Arsitektur Organisasi Adaptif untuk era disrupsi.", content:"<p>Di era VUCA, struktur hierarkis tradisional menunjukkan kekakuannya. Paper ini memperkenalkan <b>Arsitektur Organisasi Adaptif (AOA)</b> dengan 4 prinsip: Modularization, Fluid Resource Allocation, Networked Coordination, dan Dual Operating System.</p><h3 class='font-bold text-lg mt-4 mb-2'>Case: Haier</h3><p>Haier memecah 80,000 karyawan menjadi 2,000+ microenterprises dengan internal marketplace.</p>", tags:["Organizational Design","Haier"]},
+            {id:1, title:"Leadership Pipeline 2.0", cat:"leadership", catLabel:"Leadership System", date:"28 Des 2024", time:"15 min", img:"https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800", excerpt:"Mencetak pemimpin di setiap level organisasi.", content:"<p>Krisis kepemimpinan adalah <b>mismatch kapabilitas</b>. Model 70-20-10 direvisi menjadi 50-30-20 (Stretch Assignments-Social Learning-Formal).</p><h3 class='font-bold text-lg mt-4 mb-2'>6 Transisi Kritis</h3><p>Dari Managing Self ke Leading Hybrid Teams, dari Functional Manager ke Platform Leader.</p>", tags:["Leadership Development","Succession"]},
+            {id:2, title:"Strategic Governance", cat:"governance", catLabel:"Strategic Governance", date:"20 Des 2024", time:"14 min", img:"https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800", excerpt:"Beyond compliance menuju value creation.", content:"<p><b>Strategic Governance</b> mereposisi governance dari cost center menjadi strategic asset. 4 pillars: Dynamic Strategy Oversight, Intelligent Risk Governance, Stakeholder Value Alignment, Adaptive Board Architecture.</p>", tags:["GCG","Board Effectiveness"]},
+            {id:3, title:"AI-Augmented Leadership", cat:"digital-ai", catLabel:"Digital & AI Impact", date:"15 Des 2024", time:"16 min", img:"https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800", excerpt:"Sinergi manusia dan mesin dalam pengambilan keputusan.", content:"<p>Tiga gelombang: <b>Assistance</b> (productivity tools) → <b>Augmentation</b> (thought partner) → <b>Autonomy</b> (delegated decisions). Empat kompetensi kritis: Algorithmic Literacy, Human Judgment, Human-Machine Teaming, Continuous Learning.</p>", tags:["AI","Future of Work"]},
+            {id:4, title:"Transformasi Bank XYZ", cat:"case-analysis", catLabel:"Case & Field Analysis", date:"10 Des 2024", time:"20 min", img:"https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800", excerpt:"Dari legacy bank ke digital ecosystem.", content:"<p>Studi kasus 3 tahun: 15,000 karyawan, market share erosion 15%, NPS terendah. Hasil: Digital revenue 5%→35%, time-to-market 18→4 bulan, engagement 42%→71%.</p><h3 class='font-bold text-lg mt-4 mb-2'>Key Challenge</h3><p>Cultural resistance layer tengah dan legacy IT integration.</p>", tags:["Case Study","Banking","Indonesia"]},
+            {id:5, title:"The Future of Work", cat:"org-architecture", catLabel:"Organizational Architecture", date:"5 Des 2024", time:"12 min", img:"https://images.unsplash.com/photo-1497366216548-37526070297c?w=800", excerpt:"Redefining office dalam era hybrid.", content:"<p>Konsep <b>Third Workspace</b>: Focus Hubs (deep work), Collaboration Hubs (teamwork), Anywhere (remote). Perusahaan mengurangi footprint 30-40% tetapi meningkatkan investment per sqft untuk create magnetic experience.</p>", tags:["Hybrid Work","Workspace Design"]}
+        ];
+
+        let currentCat = 'all', searchQ = '';
+
+        function init() {
+            renderGrid();
+            lucide.createIcons();
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('articlesGrid');
+            grid.innerHTML = '';
+            const filtered = articles.filter(a => (currentCat === 'all' || a.cat === currentCat) && (searchQ === '' || a.title.toLowerCase().includes(searchQ.toLowerCase())) && a.id !== 0);
+            
+            filtered.forEach(a => {
+                grid.innerHTML += `
+                    <article class="group cursor-pointer bg-white rounded-xl overflow-hidden shadow border border-stone-200 hover:shadow-lg transition" onclick="openArticle(${a.id})">
+                        <div class="relative h-40 overflow-hidden">
+                            <img src="${a.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <span class="absolute top-2 left-2 bg-white/90 text-xs font-bold px-2 py-1 rounded">${a.catLabel}</span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex gap-2 text-xs text-stone-500 mb-2">
+                                <span>${a.date}</span>
+                                <span>•</span>
+                                <span>${a.time}</span>
+                            </div>
+                            <h4 class="font-serif font-bold text-lg mb-2 group-hover:text-amber-700 transition">${a.title}</h4>
+                            <p class="text-stone-600 text-sm line-clamp-2">${a.excerpt}</p>
+                        </div>
+                    </article>
+                `;
+            });
+            lucide.createIcons();
+        }
+
+        function filterCategory(cat) {
+            currentCat = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if(btn.dataset.cat === cat) {
+                    btn.className = 'cat-btn px-4 py-2 bg-stone-900 text-white text-sm rounded-full';
+                } else {
+                    btn.className = 'cat-btn px-4 py-2 bg-stone-100 text-stone-700 text-sm rounded-full';
+                }
+            });
+            renderGrid();
+        }
+
+        function handleSearch(val) {
+            searchQ = val;
+            renderGrid();
+        }
+
+        function toggleSearch() {
+            document.getElementById('searchBar').classList.toggle('hidden');
+        }
+
+        function openArticle(id) {
+            const a = articles.find(x => x.id === id);
+            document.getElementById('mImg').src = a.img;
+            document.getElementById('mCat').textContent = a.catLabel;
+            document.getElementById('mTitle').textContent = a.title;
+            document.getElementById('mDate').textContent = a.date;
+            document.getElementById('mTime').textContent = a.time;
+            document.getElementById('mContent').innerHTML = a.content;
+            document.getElementById('articleModal').classList.remove('hidden');
+        }
+
+        function closeArticle() {
+            document.getElementById('articleModal').classList.add('hidden');
+        }
+
+        function showFramework() {
+            document.getElementById('frameworkModal').classList.remove('hidden');
+        }
+
+        function closeFramework() {
+            document.getElementById('frameworkModal').classList.add('hidden');
+        }
+
+        function scrollToContent() {
+            document.getElementById('mainContent').scrollIntoView({behavior: 'smooth'});
+        }
+
+        function showAbout() {
+            alert('Yanto Goutama\nFounder of ISLA\n\nIntegrated Strategic Leadership Architecture');
+        }
+
+        function loadMore() {
+            alert('Fitur ini akan memuat lebih banyak insight dari database ISLA.');
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
