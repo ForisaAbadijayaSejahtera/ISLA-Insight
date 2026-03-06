@@ -136,8 +136,8 @@
     <div id="frameworkModal" class="fixed inset-0 z-50 hidden">
         <div class="absolute inset-0 bg-stone-900/80" onclick="closeFramework()"></div>
         <div class="absolute inset-0 flex items-center justify-center p-4">
-            <div class="bg-white max-w-2xl w-full rounded-2xl p-8 modal-enter">
-                <button onclick="closeFramework()" class="absolute top-4 right-4">✕</button>
+            <div class="bg-white max-w-2xl w-full rounded-2xl p-8 modal-enter relative">
+                <button onclick="closeFramework()" class="absolute top-4 right-4 w-10 h-10 bg-stone-100 hover:bg-stone-200 rounded-full flex items-center justify-center text-stone-600 hover:text-stone-900 transition-colors z-10">✕</button>
                 <h2 class="font-serif text-3xl font-bold mb-6 text-center">5 Pilar ISLA</h2>
                 <div class="grid grid-cols-5 gap-4 mb-6">
                     <div class="text-center">
@@ -649,6 +649,14 @@
         function loadMore() {
             alert('Fitur ini akan memuat lebih banyak insight dari database ISLA.');
         }
+
+       // Tutup modal dengan tombol ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeArticle();
+                closeFramework();
+            }
+        });
 
         document.addEventListener('DOMContentLoaded', init);
     </script>
