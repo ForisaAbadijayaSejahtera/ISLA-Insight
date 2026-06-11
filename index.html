@@ -28,6 +28,7 @@
         }
 </style>
 <base target="_blank">
+<base target="_blank">
 </head>
 <body class="text-stone-900">
 
@@ -631,7 +632,7 @@
         function renderGrid() {
             const grid = document.getElementById('articlesGrid');
             grid.innerHTML = '';
-            const filtered = articles.filter(a => (currentCat === 'all' || a.cat === currentCat) && (searchQ === '' || a.title.toLowerCase().includes(searchQ.toLowerCase())) && a.id !== 11);
+            const filtered = articles.filter(a => (currentCat === 'all' || a.cat === currentCat) && (searchQ === '' || a.title.toLowerCase().includes(searchQ.toLowerCase())));
             
             filtered.forEach(a => {
                 grid.innerHTML += `
