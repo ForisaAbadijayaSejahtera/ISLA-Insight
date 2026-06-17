@@ -12,22 +12,7 @@
         .font-serif { font-family: 'Crimson Pro', serif; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    
-        #articlePage {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            overflow-y: auto;
-            z-index: 100;
-            background: #fafaf9;
-        }
-        #articlePage.hidden {
-            display: none;
-        }
-</style>
-<base target="_blank">
+    </style>
 <base target="_blank">
 </head>
 <body class="text-stone-900">
@@ -35,7 +20,7 @@
     <!-- Header -->
     <header class="sticky top-0 z-50 bg-white border-b border-stone-200">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
                 <div class="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
                     <img src="logo-isla.png" alt="ISLA Logo" class="w-full h-full object-cover">
                 </div>
@@ -51,8 +36,8 @@
         </div>
     </header>
 
-    <!-- Hero -->
-    <section class="bg-stone-900 text-white py-20 relative overflow-hidden">
+    <!-- Hero (Only on home) -->
+    <section id="heroSection" class="bg-stone-900 text-white py-20 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 relative z-10">
             <div class="max-w-2xl">
                 <p class="text-amber-400 text-sm font-semibold mb-4">Research Series 2026</p>
@@ -73,8 +58,8 @@
         </div>
     </section>
 
-    <!-- Categories -->
-    <div class="bg-white border-b sticky top-16 z-40">
+    <!-- Categories (Only on home) -->
+    <div id="categoriesSection" class="bg-white border-b sticky top-16 z-40">
         <div class="max-w-7xl mx-auto px-4 py-3 flex gap-2 overflow-x-auto no-scrollbar">
             <button onclick="filterCategory('all')" class="cat-btn px-4 py-2 bg-stone-900 text-white text-sm rounded-full" data-cat="all">Semua</button>
             <button onclick="filterCategory('org-architecture')" class="cat-btn px-4 py-2 bg-stone-100 text-stone-700 text-sm rounded-full" data-cat="org-architecture">Organizational Architecture</button>
@@ -85,12 +70,12 @@
         </div>
     </div>
 
-    <!-- Main -->
+    <!-- Main Content (Article List - Only on home) -->
     <main id="mainContent" class="max-w-7xl mx-auto px-4 py-12">
         <h3 class="font-serif text-3xl font-bold mb-8">Insight Terbaru</h3>
-        
+
         <!-- Featured -->
-        <article class="group cursor-pointer mb-12" onclick="openArticle(12)">
+        <article id="featuredArticle" class="group cursor-pointer mb-12" onclick="openArticle(12)">
             <div class="grid md:grid-cols-2 gap-0 bg-white rounded-2xl overflow-hidden shadow-lg border border-stone-200">
                 <div class="relative h-64 md:h-auto">
                     <img src="TCUA.jpeg?w=800" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
@@ -105,7 +90,7 @@
                             <div class="w-8 h-8 bg-gradient-to-br from-amber-600 to-orange-700 rounded-full flex items-center justify-center text-white text-xs font-bold">YG</div>
                             <span class="text-sm font-semibold">Yanto Goutama</span>
                         </div>
-                        <span class="text-amber-700 text-sm font-semibold cursor-pointer" onclick="event.stopPropagation(); openArticle(12)">Baca Lengkap →</span>
+                        <span class="text-amber-700 text-sm font-semibold cursor-pointer" onclick="event.stopPropagation(); openArticle(12)">Baca Lengkap &rarr;</span>
                     </div>
                 </div>
             </div>
@@ -115,8 +100,73 @@
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="articlesGrid"></div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-stone-900 text-stone-400 py-12 mt-20">
+    <!-- Article Detail Page (Hidden by default, shown when article opened) -->
+    <div id="articlePage" class="hidden min-h-screen bg-stone-50">
+        <!-- Header Khusus Halaman Artikel -->
+        <header class="sticky top-0 z-50 bg-white border-b border-stone-200">
+            <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+                <button onclick="goHome()" class="flex items-center gap-2 text-stone-600 hover:text-stone-900 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    <span class="font-semibold text-sm">Kembali ke Insight</span>
+                </button>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
+                        <img src="logo-isla.png" alt="ISLA Logo" class="w-full h-full object-cover">
+                    </div>
+                    <span class="font-serif font-bold text-lg">ISLA Insight</span>
+                </div>
+                <div class="w-24"></div>
+            </div>
+        </header>
+
+        <!-- Konten Artikel -->
+        <article class="max-w-3xl mx-auto px-4 py-12">
+            <img id="pageImg" src="" class="w-full h-64 md:h-80 object-cover rounded-2xl mb-8 shadow-lg">
+            <span id="pageCat" class="text-amber-600 text-sm font-bold uppercase tracking-wider"></span>
+            <h1 id="pageTitle" class="font-serif text-3xl md:text-4xl font-bold mt-2 mb-6"></h1>
+            <div class="flex items-center gap-4 mb-8 text-sm text-stone-500 pb-6 border-b border-stone-200">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-gradient-to-br from-amber-600 to-orange-700 rounded-full flex items-center justify-center text-white text-xs font-bold">YG</div>
+                    <span class="font-semibold text-stone-700">Yanto Goutama</span>
+                </div>
+                <span>&bull;</span>
+                <span id="pageDate"></span>
+            </div>
+            <div id="pageContent" class="prose prose-stone max-w-none"></div>
+
+            <!-- Share & Navigation -->
+            <div class="mt-12 pt-8 border-t border-stone-200">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <p class="text-sm font-semibold text-stone-700 mb-2">Bagikan Insight Ini</p>
+                        <div class="flex gap-3">
+                            <button onclick="shareLinkedIn()" class="px-4 py-2 bg-[#0077b5] text-white rounded-lg text-sm font-semibold hover:bg-[#006396] transition">LinkedIn</button>
+                            <button onclick="shareWhatsApp()" class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition">WhatsApp</button>
+                            <button onclick="copyLink()" class="px-4 py-2 bg-stone-200 text-stone-700 rounded-lg text-sm font-semibold hover:bg-stone-300 transition">Salin Link</button>
+                        </div>
+                    </div>
+                    <button onclick="goHome()" class="px-6 py-3 bg-stone-900 text-white rounded-lg font-semibold hover:bg-stone-800 transition">&larr; Kembali ke Daftar</button>
+                </div>
+            </div>
+        </article>
+
+        <!-- Footer Halaman Artikel -->
+        <footer class="bg-stone-900 text-stone-400 py-12 mt-20">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <div class="flex items-center justify-center gap-3 mb-4">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
+                        <img src="logo-isla.png" alt="ISLA Logo" class="w-full h-full object-cover">
+                    </div>
+                    <span class="font-serif text-xl font-bold text-white">ISLA</span>
+                </div>
+                <p class="mb-4">Integrated Strategic Leadership Architecture</p>
+                <p class="text-sm">&copy; 2026 ISLA Insight. Founded by Yanto Goutama.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Footer (Only on home) -->
+    <footer id="homeFooter" class="bg-stone-900 text-stone-400 py-12 mt-20">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
@@ -124,8 +174,8 @@
                 </div>
                 <span class="font-serif text-xl font-bold text-white">ISLA</span>
             </div>
-            <p class="mb-4 max-w-md">Integrated Strategic Leadership Architecture — framework komprehensif untuk membangun organisasi yang adaptif dan berkelanjutan.</p>
-            <p class="text-sm">© 2026 ISLA Insight. Founded by Yanto Goutama.</p>
+            <p class="mb-4 max-w-md">Integrated Strategic Leadership Architecture &mdash; framework komprehensif untuk membangun organisasi yang adaptif dan berkelanjutan.</p>
+            <p class="text-sm">&copy; 2026 ISLA Insight. Founded by Yanto Goutama.</p>
             <div class="mt-6 flex items-center gap-6">
                 <a href="https://www.linkedin.com/company/pt-forisa-abadijaya-sejahtera/" target="_blank" class="text-stone-400 hover:text-amber-500 transition-colors flex items-center gap-2">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -143,12 +193,12 @@
         </div>
     </footer>
 
-    <!-- Framework Modal (tetap modal karena ringkas) -->
+    <!-- Framework Modal -->
     <div id="frameworkModal" class="fixed inset-0 z-50 hidden">
         <div class="absolute inset-0 bg-stone-900/80" onclick="closeFramework()"></div>
         <div class="absolute inset-0 flex items-center justify-center p-4">
-            <div class="bg-white max-w-2xl w-full rounded-2xl p-8 modal-enter relative">
-                <button onclick="closeFramework()" class="absolute top-4 right-4 w-10 h-10 bg-stone-100 hover:bg-stone-200 rounded-full flex items-center justify-center text-stone-600 hover:text-stone-900 transition-colors z-10">✕</button>
+            <div class="bg-white max-w-2xl w-full rounded-2xl p-8 relative">
+                <button onclick="closeFramework()" class="absolute top-4 right-4 w-10 h-10 bg-stone-100 hover:bg-stone-200 rounded-full flex items-center justify-center text-stone-600 hover:text-stone-900 transition-colors z-10">&#10005;</button>
                 <h2 class="font-serif text-3xl font-bold mb-6 text-center">5 Pilar ISLA</h2>
                 <div class="grid grid-cols-5 gap-4 mb-6">
                     <div class="text-center">
@@ -177,71 +227,6 @@
         </div>
     </div>
 
-    <!-- Article Detail Page (hidden by default, shown when article opened) -->
-    <div id="articlePage" class="hidden min-h-screen bg-stone-50">
-        <!-- Header Khusus Halaman Artikel -->
-        <header class="sticky top-0 z-50 bg-white border-b border-stone-200">
-            <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-                <button onclick="closeArticle()" class="flex items-center gap-2 text-stone-600 hover:text-stone-900 transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    <span class="font-semibold text-sm">Kembali ke Insight</span>
-                </button>
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-                        <img src="logo-isla.png" alt="ISLA Logo" class="w-full h-full object-cover">
-                    </div>
-                    <span class="font-serif font-bold text-lg">ISLA Insight</span>
-                </div>
-                <div class="w-24"></div> <!-- spacer for centering -->
-            </div>
-        </header>
-
-        <!-- Konten Artikel -->
-        <article class="max-w-3xl mx-auto px-4 py-12">
-            <img id="pageImg" src="" class="w-full h-64 md:h-80 object-cover rounded-2xl mb-8 shadow-lg">
-            <span id="pageCat" class="text-amber-600 text-sm font-bold uppercase tracking-wider"></span>
-            <h1 id="pageTitle" class="font-serif text-3xl md:text-4xl font-bold mt-2 mb-6"></h1>
-            <div class="flex items-center gap-4 mb-8 text-sm text-stone-500 pb-6 border-b border-stone-200">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-gradient-to-br from-amber-600 to-orange-700 rounded-full flex items-center justify-center text-white text-xs font-bold">YG</div>
-                    <span class="font-semibold text-stone-700">Yanto Goutama</span>
-                </div>
-                <span>•</span>
-                <span id="pageDate"></span>
-            </div>
-            <div id="pageContent" class="prose prose-stone max-w-none"></div>
-            
-            <!-- Share & Navigation -->
-            <div class="mt-12 pt-8 border-t border-stone-200">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div>
-                        <p class="text-sm font-semibold text-stone-700 mb-2">Bagikan Insight Ini</p>
-                        <div class="flex gap-3">
-                            <button onclick="shareLinkedIn()" class="px-4 py-2 bg-[#0077b5] text-white rounded-lg text-sm font-semibold hover:bg-[#006396] transition">LinkedIn</button>
-                            <button onclick="shareWhatsApp()" class="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition">WhatsApp</button>
-                            <button onclick="copyLink()" class="px-4 py-2 bg-stone-200 text-stone-700 rounded-lg text-sm font-semibold hover:bg-stone-300 transition">Salin Link</button>
-                        </div>
-                    </div>
-                    <button onclick="closeArticle()" class="px-6 py-3 bg-stone-900 text-white rounded-lg font-semibold hover:bg-stone-800 transition">← Kembali ke Daftar</button>
-                </div>
-            </div>
-        </article>
-
-        <!-- Footer Halaman Artikel -->
-        <footer class="bg-stone-900 text-stone-400 py-12 mt-20">
-            <div class="max-w-7xl mx-auto px-4 text-center">
-                <div class="flex items-center justify-center gap-3 mb-4">
-                    <div class="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-                        <img src="logo-isla.png" alt="ISLA Logo" class="w-full h-full object-cover">
-                    </div>
-                    <span class="font-serif text-xl font-bold text-white">ISLA</span>
-                </div>
-                <p class="mb-4">Integrated Strategic Leadership Architecture</p>
-                <p class="text-sm">© 2026 ISLA Insight. Founded by Yanto Goutama.</p>
-            </div>
-        </footer>
-    </div>
-
     <script>
         // Data - ISLA Insight Series
         const articles = [
@@ -253,25 +238,8 @@
                 date: "1 Maret 2026",
                 img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800",
                 excerpt: "Banyak organisasi percaya bahwa masalah operasional dapat diselesaikan dengan memperbaiki atau menambah SOP.",
-                content: `
-                    <p>Banyak organisasi percaya bahwa masalah operasional dapat diselesaikan dengan memperbaiki atau menambah SOP. Ketika terjadi kesalahan, solusi yang paling sering muncul adalah membuat aturan baru.</p>
-                    <p class="mt-4">Namun realitanya, kesalahan tetap berulang.</p>
-                    <p class="mt-4"><b>Masalahnya bukan pada kurangnya aturan. Masalahnya adalah tidak adanya arsitektur.</b></p>
-                    <p class="mt-4">SOP adalah instruksi. Arsitektur adalah desain.</p>
-                    <p class="mt-4">Sebuah organisasi bisa memiliki ratusan SOP, tetapi jika alur tanggung jawab tidak jelas, mekanisme kontrol tidak terintegrasi, dan aliran keputusan tidak terdefinisi dengan baik, maka sistem tetap rapuh.</p>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Organizational Architecture</h3>
-                    <p>Organizational Architecture melihat organisasi sebagai satu kesatuan sistem, bukan kumpulan departemen. Fokusnya adalah:</p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Flow kerja lintas fungsi</li>
-                        <li>Titik akuntabilitas yang tegas</li>
-                        <li>Mekanisme kontrol yang terukur</li>
-                        <li>Integrasi antar proses</li>
-                    </ul>
-                    <p class="mt-4">Dalam pendekatan ISLA, perbaikan tidak dimulai dari menambah aturan, tetapi dari memetakan ulang desain sistem.</p>
-                    <div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'>
-                        <p class='text-amber-900'><b>Kunci Utama:</b> Karena sistem yang benar akan membuat kepatuhan menjadi konsekuensi alami, bukan paksaan administratif.</p>
-                    </div>
-                `,
+                slug: "Mengapa-SOP-Tidak-Pernah-Benar-Benar-Menyelesaikan-Masalah-Organisasi",
+                content: `<p>Banyak organisasi percaya bahwa masalah operasional dapat diselesaikan dengan memperbaiki atau menambah SOP. Ketika terjadi kesalahan, solusi yang paling sering muncul adalah membuat aturan baru.</p><p class="mt-4">Namun realitanya, kesalahan tetap berulang.</p><p class="mt-4"><b>Masalahnya bukan pada kurangnya aturan. Masalahnya adalah tidak adanya arsitektur.</b></p><p class="mt-4">SOP adalah instruksi. Arsitektur adalah desain.</p><p class="mt-4">Sebuah organisasi bisa memiliki ratusan SOP, tetapi jika alur tanggung jawab tidak jelas, mekanisme kontrol tidak terintegrasi, dan aliran keputusan tidak terdefinisi dengan baik, maka sistem tetap rapuh.</p><h3 class='font-bold text-lg mt-6 mb-2'>Organizational Architecture</h3><p>Organizational Architecture melihat organisasi sebagai satu kesatuan sistem, bukan kumpulan departemen. Fokusnya adalah:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Flow kerja lintas fungsi</li><li>Titik akuntabilitas yang tegas</li><li>Mekanisme kontrol yang terukur</li><li>Integrasi antar proses</li></ul><p class="mt-4">Dalam pendekatan ISLA, perbaikan tidak dimulai dari menambah aturan, tetapi dari memetakan ulang desain sistem.</p><div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'><p class='text-amber-900'><b>Kunci Utama:</b> Karena sistem yang benar akan membuat kepatuhan menjadi konsekuensi alami, bukan paksaan administratif.</p></div>`,
                 tags: ["SOP", "Organizational Design", "Sistem", "Arsitektur"]
             },
             {
@@ -282,29 +250,8 @@
                 date: "1 Maret 2026",
                 img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800",
                 excerpt: "Konflik sering dianggap sebagai masalah karakter atau ego individu. Padahal dalam banyak kasus, konflik muncul karena desain sistem yang ambigu.",
-                content: `
-                    <p>Konflik sering dianggap sebagai masalah karakter atau ego individu. Padahal dalam banyak kasus, konflik muncul karena desain sistem yang ambigu.</p>
-                    <p class="mt-4">Ketika peran tidak jelas, batas otoritas tumpang tindih, dan ekspektasi tidak terdokumentasi, maka gesekan menjadi hal yang tak terhindarkan.</p>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Leadership System dalam ISLA</h3>
-                    <p>Leadership System dalam kerangka ISLA memandang perilaku sebagai hasil dari struktur.</p>
-                    <p class="mt-4">Jika struktur tidak selaras, maka:</p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Komunikasi menjadi defensif</li>
-                        <li>Kolaborasi berubah menjadi kompetisi</li>
-                        <li>Evaluasi berubah menjadi saling menyalahkan</li>
-                    </ul>
-                    <p class="mt-4"><b>Solusi bukan sekadar pelatihan motivasi atau team building sesaat.</b></p>
-                    <p class="mt-4">Solusinya adalah kalibrasi ulang sistem kepemimpinan:</p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Kejelasan peran</li>
-                        <li>Kejelasan ekspektasi</li>
-                        <li>Mekanisme feedback terstruktur</li>
-                        <li>Accountability yang terdefinisi</li>
-                    </ul>
-                    <div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'>
-                        <p class='text-amber-900'><b>Insight:</b> Budaya kerja yang sehat bukan dibentuk oleh slogan, tetapi oleh sistem yang konsisten.</p>
-                    </div>
-                `,
+                slug: "Konflik-Tim-Bukan-Masalah-Pribadi-Tetapi-Masalah-Desain-Sistem",
+                content: `<p>Konflik sering dianggap sebagai masalah karakter atau ego individu. Padahal dalam banyak kasus, konflik muncul karena desain sistem yang ambigu.</p><p class="mt-4">Ketika peran tidak jelas, batas otoritas tumpang tindih, dan ekspektasi tidak terdokumentasi, maka gesekan menjadi hal yang tak terhindarkan.</p><h3 class='font-bold text-lg mt-6 mb-2'>Leadership System dalam ISLA</h3><p>Leadership System dalam kerangka ISLA memandang perilaku sebagai hasil dari struktur.</p><p class="mt-4">Jika struktur tidak selaras, maka:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Komunikasi menjadi defensif</li><li>Kolaborasi berubah menjadi kompetisi</li><li>Evaluasi berubah menjadi saling menyalahkan</li></ul><p class="mt-4"><b>Solusi bukan sekadar pelatihan motivasi atau team building sesaat.</b></p><p class="mt-4">Solusinya adalah kalibrasi ulang sistem kepemimpinan:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Kejelasan peran</li><li>Kejelasan ekspektasi</li><li>Mekanisme feedback terstruktur</li><li>Accountability yang terdefinisi</li></ul><div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'><p class='text-amber-900'><b>Insight:</b> Budaya kerja yang sehat bukan dibentuk oleh slogan, tetapi oleh sistem yang konsisten.</p></div>`,
                 tags: ["Konflik", "Leadership", "Team Building", "Sistem"]
             },
             {
@@ -315,24 +262,8 @@
                 date: "2 Maret 2026",
                 img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800",
                 excerpt: "Banyak organisasi terlihat sibuk, tetapi sebenarnya hanya bereaksi. Keputusan diambil karena tekanan waktu, target, atau atasan.",
-                content: `
-                    <p>Banyak organisasi terlihat sibuk, tetapi sebenarnya hanya bereaksi.</p>
-                    <p class="mt-4">Keputusan diambil karena tekanan waktu, tekanan target, atau tekanan atasan. Tanpa kerangka yang jelas, keputusan menjadi situasional dan tidak konsisten.</p>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Strategic Governance dalam ISLA</h3>
-                    <p>Strategic Governance dalam ISLA menekankan pentingnya <b>Decision Architecture</b>.</p>
-                    <p class="mt-4">Decision Architecture mencakup:</p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Hirarki prioritas yang jelas</li>
-                        <li>Pemetaan risiko</li>
-                        <li>Parameter evaluasi</li>
-                        <li>Mekanisme eskalasi</li>
-                    </ul>
-                    <p class="mt-4">Tanpa kerangka ini, organisasi akan selalu bergerak berdasarkan urgensi, bukan kepentingan strategis.</p>
-                    <p class="mt-4">Arsitektur keputusan membantu manajemen membedakan antara masalah operasional dan risiko strategis.</p>
-                    <div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'>
-                        <p class='text-amber-900'><b>Hasil:</b> Dengan begitu, organisasi tidak hanya cepat bergerak, tetapi juga tepat arah.</p>
-                    </div>
-                `,
+                slug: "Organisasi-Reaktif-Terjadi-Karena-Tidak-Memiliki-Decision-Architecture",
+                content: `<p>Banyak organisasi terlihat sibuk, tetapi sebenarnya hanya bereaksi.</p><p class="mt-4">Keputusan diambil karena tekanan waktu, tekanan target, atau tekanan atasan. Tanpa kerangka yang jelas, keputusan menjadi situasional dan tidak konsisten.</p><h3 class='font-bold text-lg mt-6 mb-2'>Strategic Governance dalam ISLA</h3><p>Strategic Governance dalam ISLA menekankan pentingnya <b>Decision Architecture</b>.</p><p class="mt-4">Decision Architecture mencakup:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Hirarki prioritas yang jelas</li><li>Pemetaan risiko</li><li>Parameter evaluasi</li><li>Mekanisme eskalasi</li></ul><p class="mt-4">Tanpa kerangka ini, organisasi akan selalu bergerak berdasarkan urgensi, bukan kepentingan strategis.</p><p class="mt-4">Arsitektur keputusan membantu manajemen membedakan antara masalah operasional dan risiko strategis.</p><div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'><p class='text-amber-900'><b>Hasil:</b> Dengan begitu, organisasi tidak hanya cepat bergerak, tetapi juga tepat arah.</p></div>`,
                 tags: ["Decision Making", "Governance", "Strategic", "Prioritas"]
             },
             {
@@ -343,24 +274,8 @@
                 date: "2 Maret 2026",
                 img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800",
                 excerpt: "Banyak organisasi berinvestasi pada teknologi terbaru, namun teknologi tidak pernah memperbaiki struktur yang lemah.",
-                content: `
-                    <p>Banyak organisasi berinvestasi pada teknologi terbaru: sistem ERP, dashboard data, otomatisasi, hingga kecerdasan buatan.</p>
-                    <p class="mt-4"><b>Namun teknologi tidak pernah memperbaiki struktur yang lemah.</b></p>
-                    <p class="mt-4">Jika alur keputusan tidak jelas, maka dashboard hanya menjadi pajangan. Jika tanggung jawab tidak tegas, maka otomatisasi hanya memindahkan kesalahan lebih cepat.</p>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Transformasi Digital yang Efektif</h3>
-                    <p>Transformasi digital yang efektif harus dimulai dari governance.</p>
-                    <p class="mt-4">ISLA melihat teknologi sebagai <b>akselerator, bukan fondasi.</b></p>
-                    <p class="mt-4">Sebelum mengadopsi sistem digital, organisasi harus memastikan:</p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Alur keputusan terdefinisi</li>
-                        <li>Parameter kinerja jelas</li>
-                        <li>Mekanisme kontrol berjalan</li>
-                        <li>Akuntabilitas terdokumentasi</li>
-                    </ul>
-                    <div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'>
-                        <p class='text-amber-900'><b>Peringatan:</b> Teknologi mempercepat apa yang sudah ada. Jika sistemnya kacau, kekacauan akan menjadi lebih cepat.</p>
-                    </div>
-                `,
+                slug: "Digitalisasi-Tanpa-Arsitektur-Kepemimpinan-Hanya-Mempercepat-Kekacauan",
+                content: `<p>Banyak organisasi berinvestasi pada teknologi terbaru: sistem ERP, dashboard data, otomatisasi, hingga kecerdasan buatan.</p><p class="mt-4"><b>Namun teknologi tidak pernah memperbaiki struktur yang lemah.</b></p><p class="mt-4">Jika alur keputusan tidak jelas, maka dashboard hanya menjadi pajangan. Jika tanggung jawab tidak tegas, maka otomatisasi hanya memindahkan kesalahan lebih cepat.</p><h3 class='font-bold text-lg mt-6 mb-2'>Transformasi Digital yang Efektif</h3><p>Transformasi digital yang efektif harus dimulai dari governance.</p><p class="mt-4">ISLA melihat teknologi sebagai <b>akselerator, bukan fondasi.</b></p><p class="mt-4">Sebelum mengadopsi sistem digital, organisasi harus memastikan:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Alur keputusan terdefinisi</li><li>Parameter kinerja jelas</li><li>Mekanisme kontrol berjalan</li><li>Akuntabilitas terdokumentasi</li></ul><div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'><p class='text-amber-900'><b>Peringatan:</b> Teknologi mempercepat apa yang sudah ada. Jika sistemnya kacau, kekacauan akan menjadi lebih cepat.</p></div>`,
                 tags: ["Digital", "Teknologi", "ERP", "Transformasi"]
             },
             {
@@ -371,28 +286,8 @@
                 date: "3 Maret 2026",
                 img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800",
                 excerpt: "Dalam banyak organisasi, evaluasi rutin sudah dilakukan. Rapat diadakan. Teguran diberikan. Laporan disusun. Namun kesalahan tetap terjadi.",
-                content: `
-                    <p>Dalam banyak organisasi, evaluasi rutin sudah dilakukan. Rapat diadakan. Teguran diberikan. Laporan disusun.</p>
-                    <p class="mt-4"><b>Namun kesalahan tetap terjadi.</b></p>
-                    <p class="mt-4">Mengapa?</p>
-                    <p class="mt-4">Karena evaluasi sering berhenti pada individu, bukan pada desain sistem.</p>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Studi Kasus: Kesalahan Pengiriman Barang</h3>
-                    <p>Dalam satu kasus operasional, misalnya kesalahan pengiriman barang, penyebab yang sering muncul adalah kelalaian staf.</p>
-                    <p class="mt-4"><b>Tetapi ketika dipetakan lebih dalam, ditemukan:</b></p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Tidak ada checkpoint lintas fungsi</li>
-                        <li>Validasi hanya dilakukan satu arah</li>
-                        <li>Beban kerja tidak seimbang</li>
-                        <li>Mekanisme koreksi tidak terdokumentasi</li>
-                    </ul>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Pendekatan ISLA</h3>
-                    <p>ISLA menggunakan pendekatan <b>diagnosis sistemik.</b></p>
-                    <p class="mt-4">Fokusnya bukan mencari siapa yang salah, tetapi <b>di mana desain sistem memungkinkan kesalahan terjadi.</b></p>
-                    <p class="mt-4">Ketika accountability flow diperjelas dan titik kontrol ditambahkan secara strategis, tingkat error menurun tanpa perlu tekanan berlebihan pada individu.</p>
-                    <div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'>
-                        <p class='text-amber-900'><b>Kesimpulan:</b> Performa berkelanjutan bukan hasil dari pengawasan ketat, tetapi dari arsitektur yang tepat.</p>
-                    </div>
-                `,
+                slug: "Mengapa-Error-Operasional-Terjadi-Berulang-Walaupun-Sudah-Dievaluasi",
+                content: `<p>Dalam banyak organisasi, evaluasi rutin sudah dilakukan. Rapat diadakan. Teguran diberikan. Laporan disusun.</p><p class="mt-4"><b>Namun kesalahan tetap terjadi.</b></p><p class="mt-4">Mengapa?</p><p class="mt-4">Karena evaluasi sering berhenti pada individu, bukan pada desain sistem.</p><h3 class='font-bold text-lg mt-6 mb-2'>Studi Kasus: Kesalahan Pengiriman Barang</h3><p>Dalam satu kasus operasional, misalnya kesalahan pengiriman barang, penyebab yang sering muncul adalah kelalaian staf.</p><p class="mt-4"><b>Tetapi ketika dipetakan lebih dalam, ditemukan:</b></p><ul class='list-disc pl-5 my-3 space-y-2'><li>Tidak ada checkpoint lintas fungsi</li><li>Validasi hanya dilakukan satu arah</li><li>Beban kerja tidak seimbang</li><li>Mekanisme koreksi tidak terdokumentasi</li></ul><h3 class='font-bold text-lg mt-6 mb-2'>Pendekatan ISLA</h3><p>ISLA menggunakan pendekatan <b>diagnosis sistemik.</b></p><p class="mt-4">Fokusnya bukan mencari siapa yang salah, tetapi <b>di mana desain sistem memungkinkan kesalahan terjadi.</b></p><p class="mt-4">Ketika accountability flow diperjelas dan titik kontrol ditambahkan secara strategis, tingkat error menurun tanpa perlu tekanan berlebihan pada individu.</p><div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'><p class='text-amber-900'><b>Kesimpulan:</b> Performa berkelanjutan bukan hasil dari pengawasan ketat, tetapi dari arsitektur yang tepat.</p></div>`,
                 tags: ["Error", "Evaluasi", "Operasional", "Diagnosis"]
             },            
             {
@@ -403,30 +298,8 @@
                 date: "6 Maret 2026",
                 img: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800",
                 excerpt: "Banyak organisasi menyusun struktur berdasarkan fungsi administratif, namun pekerjaan nyata jarang berjalan mengikuti kotak-kotak tersebut.",
-                content: `
-                    <p>Banyak organisasi menyusun struktur berdasarkan fungsi administratif: HR, Finance, Operations, Marketing.</p>
-                    <p class="mt-4"><b>Namun pekerjaan nyata jarang berjalan mengikuti kotak-kotak tersebut.</b></p>
-                    <p class="mt-4">Aktivitas operasional justru mengalir lintas fungsi. Pesanan pelanggan melewati penjualan, operasional, logistik, hingga keuangan. Jika struktur hanya menggambarkan departemen tetapi tidak memetakan alur kerja sebenarnya, maka koordinasi menjadi mahal.</p>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Gejala yang Muncul</h3>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Duplikasi pekerjaan</li>
-                        <li>Keterlambatan keputusan</li>
-                        <li>Tanggung jawab yang saling dilempar</li>
-                        <li>Konflik antar fungsi</li>
-                    </ul>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Pendekatan Organizational Architecture</h3>
-                    <p>Dalam pendekatan Organizational Architecture, struktur tidak hanya menggambarkan hierarki, tetapi juga harus selaras dengan flow kerja inti organisasi.</p>
-                    <p class="mt-4"><b>Artinya organisasi perlu memetakan:</b></p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>End-to-end process</li>
-                        <li>Critical control points</li>
-                        <li>Flow akuntabilitas</li>
-                        <li>Hubungan koordinasi lintas fungsi</li>
-                    </ul>
-                    <div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'>
-                        <p class='text-amber-900'><b>Kesimpulan:</b> Struktur yang selaras dengan proses akan mengurangi friksi operasional dan meningkatkan kecepatan eksekusi.</p>
-                    </div>
-                `,
+                slug: "Ketika-Struktur-Organisasi-Tidak-Mencerminkan-Alur-Kerja-Nyata",
+                content: `<p>Banyak organisasi menyusun struktur berdasarkan fungsi administratif: HR, Finance, Operations, Marketing.</p><p class="mt-4"><b>Namun pekerjaan nyata jarang berjalan mengikuti kotak-kotak tersebut.</b></p><p class="mt-4">Aktivitas operasional justru mengalir lintas fungsi. Pesanan pelanggan melewati penjualan, operasional, logistik, hingga keuangan. Jika struktur hanya menggambarkan departemen tetapi tidak memetakan alur kerja sebenarnya, maka koordinasi menjadi mahal.</p><h3 class='font-bold text-lg mt-6 mb-2'>Gejala yang Muncul</h3><ul class='list-disc pl-5 my-3 space-y-2'><li>Duplikasi pekerjaan</li><li>Keterlambatan keputusan</li><li>Tanggung jawab yang saling dilempar</li><li>Konflik antar fungsi</li></ul><h3 class='font-bold text-lg mt-6 mb-2'>Pendekatan Organizational Architecture</h3><p>Dalam pendekatan Organizational Architecture, struktur tidak hanya menggambarkan hierarki, tetapi juga harus selaras dengan flow kerja inti organisasi.</p><p class="mt-4"><b>Artinya organisasi perlu memetakan:</b></p><ul class='list-disc pl-5 my-3 space-y-2'><li>End-to-end process</li><li>Critical control points</li><li>Flow akuntabilitas</li><li>Hubungan koordinasi lintas fungsi</li></ul><div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'><p class='text-amber-900'><b>Kesimpulan:</b> Struktur yang selaras dengan proses akan mengurangi friksi operasional dan meningkatkan kecepatan eksekusi.</p></div>`,
                 tags: ["Struktur", "Proses", "Lintas Fungsi", "Koordinasi"]
             },
             {
@@ -437,29 +310,8 @@
                 date: "6 Maret 2026",
                 img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800",
                 excerpt: "Dalam banyak organisasi, pemimpin dinilai berdasarkan persepsi umum, namun kepemimpinan yang efektif membutuhkan definisi yang operasional.",
-                content: `
-                    <p>Dalam banyak organisasi, pemimpin dinilai berdasarkan persepsi umum: apakah dianggap tegas, inspiratif, atau komunikatif.</p>
-                    <p class="mt-4"><b>Namun kepemimpinan yang efektif sebenarnya membutuhkan definisi yang operasional.</b></p>
-                    <p class="mt-4">Tanpa ekspektasi yang jelas, seorang manajer akan menafsirkan sendiri apa arti kepemimpinan.</p>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Akibatnya: Variasi Perilaku yang Besar Antar Unit</h3>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Ada yang terlalu otoriter</li>
-                        <li>Ada yang terlalu permisif</li>
-                        <li>Ada yang menghindari keputusan</li>
-                    </ul>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Leadership System dalam ISLA</h3>
-                    <p>Leadership System dalam kerangka ISLA menekankan <b>standardisasi ekspektasi kepemimpinan.</b></p>
-                    <p class="mt-4">Organisasi perlu mendefinisikan secara eksplisit:</p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Apa yang harus diputuskan oleh pemimpin</li>
-                        <li>Apa yang harus dikontrol</li>
-                        <li>Apa yang harus dilaporkan</li>
-                        <li>Apa indikator keberhasilannya</li>
-                    </ul>
-                    <div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'>
-                        <p class='text-amber-900'><b>Insight:</b> Dengan kerangka ini, kepemimpinan tidak lagi bergantung pada gaya pribadi semata, tetapi pada sistem yang konsisten.</p>
-                    </div>
-                `,
+                slug: "Masalah-Kepemimpinan-Sering-Berasal-dari-Ketidakjelasan-Ekspektasi",
+                content: `<p>Dalam banyak organisasi, pemimpin dinilai berdasarkan persepsi umum: apakah dianggap tegas, inspiratif, atau komunikatif.</p><p class="mt-4"><b>Namun kepemimpinan yang efektif sebenarnya membutuhkan definisi yang operasional.</b></p><p class="mt-4">Tanpa ekspektasi yang jelas, seorang manajer akan menafsirkan sendiri apa arti kepemimpinan.</p><h3 class='font-bold text-lg mt-6 mb-2'>Akibatnya: Variasi Perilaku yang Besar Antar Unit</h3><ul class='list-disc pl-5 my-3 space-y-2'><li>Ada yang terlalu otoriter</li><li>Ada yang terlalu permisif</li><li>Ada yang menghindari keputusan</li></ul><h3 class='font-bold text-lg mt-6 mb-2'>Leadership System dalam ISLA</h3><p>Leadership System dalam kerangka ISLA menekankan <b>standardisasi ekspektasi kepemimpinan.</b></p><p class="mt-4">Organisasi perlu mendefinisikan secara eksplisit:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Apa yang harus diputuskan oleh pemimpin</li><li>Apa yang harus dikontrol</li><li>Apa yang harus dilaporkan</li><li>Apa indikator keberhasilannya</li></ul><div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'><p class='text-amber-900'><b>Insight:</b> Dengan kerangka ini, kepemimpinan tidak lagi bergantung pada gaya pribadi semata, tetapi pada sistem yang konsisten.</p></div>`,
                 tags: ["Kepemimpinan", "Ekspektasi", "Standardisasi", "Sistem"]
             },
             {
@@ -470,28 +322,8 @@
                 date: "6 Maret 2026",
                 img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800",
                 excerpt: "Banyak perusahaan menetapkan target ambisius setiap tahun, namun target sering tidak otomatis menghasilkan perubahan perilaku organisasi.",
-                content: `
-                    <p>Banyak perusahaan menetapkan target ambisius setiap tahun. Namun target sering tidak otomatis menghasilkan perubahan perilaku organisasi.</p>
-                    <p class="mt-4"><b>Masalahnya adalah target hanyalah angka, sementara eksekusi membutuhkan mekanisme penggerak.</b></p>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Tanpa Governance yang Jelas, Target Dapat Menghasilkan:</h3>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Tekanan jangka pendek</li>
-                        <li>Manipulasi angka</li>
-                        <li>Prioritas yang berubah-ubah</li>
-                    </ul>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Strategic Governance dalam ISLA</h3>
-                    <p>Strategic Governance dalam kerangka ISLA menempatkan target sebagai bagian dari <b>sistem keputusan yang lebih besar.</b></p>
-                    <p class="mt-4">Beberapa elemen penting di dalamnya:</p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Keterkaitan target dengan strategi</li>
-                        <li>Parameter evaluasi yang konsisten</li>
-                        <li>Forum keputusan yang terstruktur</li>
-                        <li>Mekanisme monitoring yang disiplin</li>
-                    </ul>
-                    <div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'>
-                        <p class='text-amber-900'><b>Hasil:</b> Dengan struktur governance yang tepat, target tidak hanya menjadi angka di atas kertas, tetapi menjadi alat navigasi organisasi.</p>
-                    </div>
-                `,
+                slug: "Target-Tidak-Selalu-Menggerakkan-Organisasi",
+                content: `<p>Banyak perusahaan menetapkan target ambisius setiap tahun. Namun target sering tidak otomatis menghasilkan perubahan perilaku organisasi.</p><p class="mt-4"><b>Masalahnya adalah target hanyalah angka, sementara eksekusi membutuhkan mekanisme penggerak.</b></p><h3 class='font-bold text-lg mt-6 mb-2'>Tanpa Governance yang Jelas, Target Dapat Menghasilkan:</h3><ul class='list-disc pl-5 my-3 space-y-2'><li>Tekanan jangka pendek</li><li>Manipulasi angka</li><li>Prioritas yang berubah-ubah</li></ul><h3 class='font-bold text-lg mt-6 mb-2'>Strategic Governance dalam ISLA</h3><p>Strategic Governance dalam kerangka ISLA menempatkan target sebagai bagian dari <b>sistem keputusan yang lebih besar.</b></p><p class="mt-4">Beberapa elemen penting di dalamnya:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Keterkaitan target dengan strategi</li><li>Parameter evaluasi yang konsisten</li><li>Forum keputusan yang terstruktur</li><li>Mekanisme monitoring yang disiplin</li></ul><div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'><p class='text-amber-900'><b>Hasil:</b> Dengan struktur governance yang tepat, target tidak hanya menjadi angka di atas kertas, tetapi menjadi alat navigasi organisasi.</p></div>`,
                 tags: ["Target", "Governance", "Strategi", "Navigasi"]
             },
             {
@@ -502,29 +334,8 @@
                 date: "6 Maret 2026",
                 img: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800",
                 excerpt: "Organisasi modern memiliki akses ke data dalam jumlah besar, namun banyak manajemen tetap kesulitan mengambil keputusan yang jelas.",
-                content: `
-                    <p>Organisasi modern memiliki akses ke data dalam jumlah besar. Dashboard kinerja, laporan otomatis, hingga analitik berbasis AI menjadi semakin umum.</p>
-                    <p class="mt-4"><b>Namun banyak manajemen tetap kesulitan mengambil keputusan yang jelas.</b></p>
-                    <p class="mt-4">Masalah utamanya bukan kekurangan data, tetapi <b>kelebihan sinyal tanpa kerangka interpretasi.</b></p>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Tanpa Kerangka Analisis yang Jelas, Data Justru Menghasilkan:</h3>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Overload informasi</li>
-                        <li>Diskusi yang tidak fokus</li>
-                        <li>Keputusan yang tertunda</li>
-                    </ul>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Pendekatan ISLA</h3>
-                    <p>Dalam pendekatan ISLA, data harus ditempatkan dalam <b>struktur pengambilan keputusan.</b></p>
-                    <p class="mt-4">Organisasi perlu mendefinisikan:</p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Data apa yang benar-benar relevan</li>
-                        <li>Siapa yang harus menganalisis</li>
-                        <li>Kapan data digunakan dalam forum keputusan</li>
-                        <li>Apa implikasi operasionalnya</li>
-                    </ul>
-                    <div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'>
-                        <p class='text-amber-900'><b>Poin Kunci:</b> Teknologi analitik hanya bernilai ketika terhubung langsung dengan mekanisme keputusan organisasi.</p>
-                    </div>
-                `,
+                slug: "Data-Melimpah-Tidak-Selalu-Menghasilkan-Insight",
+                content: `<p>Organisasi modern memiliki akses ke data dalam jumlah besar. Dashboard kinerja, laporan otomatis, hingga analitik berbasis AI menjadi semakin umum.</p><p class="mt-4"><b>Namun banyak manajemen tetap kesulitan mengambil keputusan yang jelas.</b></p><p class="mt-4">Masalah utamanya bukan kekurangan data, tetapi <b>kelebihan sinyal tanpa kerangka interpretasi.</b></p><h3 class='font-bold text-lg mt-6 mb-2'>Tanpa Kerangka Analisis yang Jelas, Data Justru Menghasilkan:</h3><ul class='list-disc pl-5 my-3 space-y-2'><li>Overload informasi</li><li>Diskusi yang tidak fokus</li><li>Keputusan yang tertunda</li></ul><h3 class='font-bold text-lg mt-6 mb-2'>Pendekatan ISLA</h3><p>Dalam pendekatan ISLA, data harus ditempatkan dalam <b>struktur pengambilan keputusan.</b></p><p class="mt-4">Organisasi perlu mendefinisikan:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Data apa yang benar-benar relevan</li><li>Siapa yang harus menganalisis</li><li>Kapan data digunakan dalam forum keputusan</li><li>Apa implikasi operasionalnya</li></ul><div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'><p class='text-amber-900'><b>Poin Kunci:</b> Teknologi analitik hanya bernilai ketika terhubung langsung dengan mekanisme keputusan organisasi.</p></div>`,
                 tags: ["Data", "Insight", "Analitik", "Keputusan"]
             },
             {
@@ -535,25 +346,8 @@
                 date: "6 Maret 2026",
                 img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800",
                 excerpt: "Banyak organisasi memulai inisiatif perbaikan proses, namun setelah beberapa bulan, momentum sering menurun.",
-                content: `
-                    <p>Banyak organisasi memulai inisiatif perbaikan proses: lean improvement, quality program, atau operational excellence.</p>
-                    <p class="mt-4">Pada tahap awal biasanya muncul energi yang tinggi. Workshop dilakukan, ide perbaikan dikumpulkan, dan beberapa perubahan mulai diterapkan.</p>
-                    <p class="mt-4"><b>Namun setelah beberapa bulan, momentum sering menurun.</b></p>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Salah Satu Penyebab Utamanya</h3>
-                    <p>Tidak adanya sistem yang menjaga disiplin implementasi.</p>
-                    <p class="mt-4">Perbaikan proses membutuhkan lebih dari sekadar ide. Ia membutuhkan <b>mekanisme operasional yang stabil.</b></p>
-                    <h3 class='font-bold text-lg mt-6 mb-2'>Diagnosis ISLA</h3>
-                    <p>Dalam diagnosis ISLA, keberlanjutan program perbaikan biasanya bergantung pada beberapa faktor:</p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Kejelasan ownership perubahan</li>
-                        <li>Integrasi dengan KPI operasional</li>
-                        <li>Forum monitoring yang rutin</li>
-                        <li>Sistem pelaporan yang sederhana tetapi konsisten</li>
-                    </ul>
-                    <div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'>
-                        <p class='text-amber-900'><b>Kunci Keberlanjutan:</b> Tanpa elemen-elemen ini, perbaikan proses mudah kembali ke pola lama. Sistem yang stabil memastikan bahwa perubahan tidak bergantung pada semangat sementara, tetapi menjadi bagian dari operasi sehari-hari.</p>
-                    </div>
-                `,
+                slug: "Mengapa-Program-Perbaikan-Proses-Sering-Kehilangan-Momentum",
+                content: `<p>Banyak organisasi memulai inisiatif perbaikan proses: lean improvement, quality program, atau operational excellence.</p><p class="mt-4">Pada tahap awal biasanya muncul energi yang tinggi. Workshop dilakukan, ide perbaikan dikumpulkan, dan beberapa perubahan mulai diterapkan.</p><p class="mt-4"><b>Namun setelah beberapa bulan, momentum sering menurun.</b></p><h3 class='font-bold text-lg mt-6 mb-2'>Salah Satu Penyebab Utamanya</h3><p>Tidak adanya sistem yang menjaga disiplin implementasi.</p><p class="mt-4">Perbaikan proses membutuhkan lebih dari sekadar ide. Ia membutuhkan <b>mekanisme operasional yang stabil.</b></p><h3 class='font-bold text-lg mt-6 mb-2'>Diagnosis ISLA</h3><p>Dalam diagnosis ISLA, keberlanjutan program perbaikan biasanya bergantung pada beberapa faktor:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Kejelasan ownership perubahan</li><li>Integrasi dengan KPI operasional</li><li>Forum monitoring yang rutin</li><li>Sistem pelaporan yang sederhana tetapi konsisten</li></ul><div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'><p class='text-amber-900'><b>Kunci Keberlanjutan:</b> Tanpa elemen-elemen ini, perbaikan proses mudah kembali ke pola lama. Sistem yang stabil memastikan bahwa perubahan tidak bergantung pada semangat sementara, tetapi menjadi bagian dari operasi sehari-hari.</p></div>`,
                 tags: ["Perbaikan Proses", "Keberlanjutan", "Sistem", "Monitoring"]
             },
             {
@@ -564,60 +358,8 @@
                 date: "11 Juni 2026",
                 img: "hidden.jpeg?w=800",
                 excerpt: "Di banyak perusahaan, kesibukan sering dianggap sebagai tanda produktivitas. Kalender penuh dengan rapat, pesan terus berdatangan, berbagai inisiatif berjalan secara bersamaan, dan tim terlihat bekerja tanpa henti. Dari luar, organisasi tampak hidup dan bergerak cepat.",
-                content: `
-                    <p>Namun di balik aktivitas yang padat itu, sering muncul pertanyaan yang lebih mendasar. Mengapa target bisnis tidak tercapai secara konsisten? Mengapa masalah yang sama terus berulang? Mengapa keputusan penting selalu bergantung pada orang tertentu? Dan mengapa pertumbuhan bisnis terasa lebih lambat dibanding energi yang sudah dikeluarkan?</p>
-                     <p class="mt-4"><b>Saat Kesibukan Menutupi Masalah yang Lebih Besar</b></p>
-                     <p class="mt-4">Banyak perusahaan mengira tantangan utama mereka adalah kekurangan SDM, penjualan yang belum optimal, atau persaingan yang semakin ketat.</p>
-                     <p class="mt-4">Padahal setelah dilakukan evaluasi lebih dalam, akar masalahnya sering berada pada sistem organisasi itu sendiri.</p>
-                     <p class="mt-4">Beberapa gejala yang umum ditemukan antara lain:</p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Keputusan berjalan lambat karena harus menunggu persetujuan pihak tertentu.</li>
-                        <li>Tanggung jawab antar fungsi tidak jelas.</li>
-                        <li>Terjadi tumpang tindih pekerjaan di berbagai departemen tertentu.</li>
-                        <li>Konflik internal muncul akibat perbedaan persepsi mengenai kewenangan.</li>
-                        <li>Informasi penting tidak mengalir secara efektif.</li>
-                        <li>Kinerja organisasi bergantung pada individu tertentu, bukan pada sistem yang berjalan.</li>
-                    </ul>
-                     <p class="mt-4">Masalah-masalah tersebut sering dianggap sebagai hambatan operasional sehari-hari. Padahal jika dibiarkan terus-menerus, kondisi ini akan berkembang menjadi pola kerja yang dianggap normal. Di titik itulah chaos mulai berubah menjadi budaya organisasi.</p>                    
-                    <p class="mt-4"><b>Masalahnya Bukan Orang, Melainkan Sistem</b></p>
-                    <p class="mt-4">Ketika performa bisnis menurun, banyak pemimpin langsung berfokus pada kualitas SDM. Mereka merekrut orang baru, mengganti manajer, atau melakukan restrukturisasi organisasi.</p>
-                    <p class="mt-4">Sayangnya, langkah tersebut tidak selalu menyelesaikan masalah. Dalam banyak kasus, individu yang dianggap kurang kompeten sebenarnya bekerja di dalam sistem yang memang tidak dirancang untuk menghasilkan kinerja yang konsisten.</p>
-                    <p class="mt-4">Karakteristik organisasi seperti ini biasanya mudah dikenali:</p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Struktur organisasi ada, tetapi tidak benar-benar dijalankan.</li>
-                        <li>Job description tersedia, tetapi tidak menjadi acuan kerja.</li>
-                        <li>SOP dibuat, tetapi tidak digunakan dalam pengambilan keputusan.</li>
-                        <li>Rapat berlangsung rutin, tetapi tidak menghasilkan akuntabilitas yang jelas.</li>
-                        <li>Target ditetapkan, tetapi tidak didukung oleh mekanisme monitoring yang efektif.</li>
-                    </ul>
-                    <p class="mt-4">Akibatnya, organisasi berjalan dengan mengandalkan komunikasi informal, kedekatan personal, dan intervensi langsung dari pimpinan.</p>
-                    <p class="mt-4">Model seperti ini mungkin masih efektif ketika perusahaan berukuran kecil. Namun saat bisnis berkembang, kompleksitas akan tumbuh jauh lebih cepat dibanding kemampuan organisasi untuk mengelolanya.</p>
-                    <p class="mt-4"><b>Dampak Yang Sering Tidak Terlihat</b></p>
-                    <p class="mt-4">Organizational chaos tidak selalu langsung terlihat dalam laporan keuangan. Namun dampaknya perlahan menggerogoti fondasi bisnis.</p>
-                    <p class="mt-4">Dari sisi produktivitas, banyak waktu terbuang untuk klarifikasi, koordinasi ulang, dan penyelesaian konflik yang sebenarnya bisa dicegah sejak awal.</p>
-                    <p class="mt-4">Dari sisi profitabilitas, muncul biaya tersembunyi berupa pekerjaan yang harus diulang (rework), keterlambatan proyek, kesalahan operasional, hingga keputusan yang kurang efektif.</p>
-                    <p class="mt-4">Sementara dari sisi budaya organisasi, karyawan mulai kehilangan kejelasan mengenai prioritas dan ekspektasi. Mereka bekerja keras, tetapi merasa hasil yang diperoleh tidak sebanding dengan usaha yang dikeluarkan.</p>
-                    <p class="mt-4">Yang paling berbahaya, kondisi ini menghambat pertumbuhan bisnis. Setiap ekspansi justru menambah kompleksitas dan memperbesar kekacauan yang sudah ada.</p>
-                    <p class="mt-4">Dalam situasi seperti ini, pertumbuhan bukan lagi menjadi aset. Pertumbuhan justru berubah menjadi sumber tekanan baru.</p>
-                    <p class="mt-4"><b>Empat Langkah Mengurangi Organizational Chaos</b></p>
-                    <p class="mt-4">Sebelum berbicara tentang ekspansi atau pertumbuhan yang lebih agresif, ada empat area penting yang perlu dievaluasi.</p>
-                    <p class="mt-4"><b>1. Perjelas Akuntabilitas</b></p>
-                    <p class="mt-4">Setiap fungsi harus memahami siapa yang bertanggung jawab atas keputusan, pelaksanaan, dan hasil akhir. Kejelasan akuntabilitas jauh lebih penting dibanding menambah jumlah rapat koordinasi.</p>
-                    <p class="mt-4"><b>2. Perkuat Tata Kelola</b></p>
-                    <p class="mt-4">Tata kelola (governance) bukan hanya kebutuhan perusahaan besar. Perusahaan yang sedang berkembang juga membutuhkan kejelasan otorisasi, mekanisme pengambilan keputusan, serta sistem kontrol internal yang efektif. Di sinilah peran RACI dan Level of Authority menjadi sangat penting.</p>
-<p class="mt-4"><b>3. Standarisasi Proses Kritis</b></p>
-                    <p class="mt-4">Tidak semua aktivitas harus dibuat birokratis. Fokuslah pada proses-proses yang memiliki dampak langsung terhadap kualitas layanan, risiko operasional, dan pencapaian target bisnis.</p>
-<p class="mt-4"><b>4. Bangun Sistem, Bukan Ketergantungan</b></p>
-                    <p class="mt-4">Organisasi yang sehat tidak bergantung pada satu individu, bahkan pada pendirinya sekalipun. Tujuan akhirnya adalah membangun sistem yang mampu menghasilkan kinerja yang konsisten meskipun kompleksitas bisnis terus meningkat.</p>
-                    <p class="mt-4"><b>Kesibukan Belum Tentu Kemajuan</b></p>
-                    <p class="mt-4">Banyak organisasi terlihat sangat sibuk, tetapi tidak semuanya bergerak secara efektif. Kesibukan sering kali menciptakan ilusi kemajuan. Padahal di balik aktivitas yang padat, bisa saja terdapat masalah mendasar dalam struktur, tata kelola, pengambilan keputusan, maupun eksekusi organisasi. Karena itu, pertanyaan yang perlu diajukan setiap pemimpin bukanlah seberapa sibuk organisasinya saat ini.</p>
-                    <p class="mt-4">Pertanyaannya adalah: apakah organisasi tersebut benar-benar dirancang untuk bertumbuh secara berkelanjutan?</p>
-                    <p class="mt-4">Pada akhirnya, performa bisnis tidak dibangun oleh kerja keras semata. Performa yang berkelanjutan selalu lahir dari sistem yang tepat.</p>
-                    <p class="mt-4">Seiring semakin kompleksnya tantangan bisnis, diskusi mengenai desain organisasi, tata kelola, dan efektivitas sistem kerja akan menjadi semakin relevan.</p>
-                    <div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'>
-                        <p class='text-amber-900'><b>Kunci Keberlanjutan:</b> Kesibukan sering kali memberikan ilusi kemajuan. Padahal di balik aktivitas yang padat, bisa saja terdapat masalah mendasar dalam struktur, tata kelola, pengambilan keputusan, dan eksekusi organisasi.</p>
-                    </div>
-                `,
+                slug: "The-Hidden-Cost-of-Organizational-Chaos",
+                content: `<p>Namun di balik aktivitas yang padat itu, sering muncul pertanyaan yang lebih mendasar. Mengapa target bisnis tidak tercapai secara konsisten? Mengapa masalah yang sama terus berulang? Mengapa keputusan penting selalu bergantung pada orang tertentu? Dan mengapa pertumbuhan bisnis terasa lebih lambat dibanding energi yang sudah dikeluarkan?</p><p class="mt-4"><b>Saat Kesibukan Menutupi Masalah yang Lebih Besar</b></p><p class="mt-4">Banyak perusahaan mengira tantangan utama mereka adalah kekurangan SDM, penjualan yang belum optimal, atau persaingan yang semakin ketat.</p><p class="mt-4">Padahal setelah dilakukan evaluasi lebih dalam, akar masalahnya sering berada pada sistem organisasi itu sendiri.</p><p class="mt-4">Beberapa gejala yang umum ditemukan antara lain:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Keputusan berjalan lambat karena harus menunggu persetujuan pihak tertentu.</li><li>Tanggung jawab antar fungsi tidak jelas.</li><li>Terjadi tumpang tindih pekerjaan di berbagai departemen tertentu.</li><li>Konflik internal muncul akibat perbedaan persepsi mengenai kewenangan.</li><li>Informasi penting tidak mengalir secara efektif.</li><li>Kinerja organisasi bergantung pada individu tertentu, bukan pada sistem yang berjalan.</li></ul><p class="mt-4">Masalah-masalah tersebut sering dianggap sebagai hambatan operasional sehari-hari. Padahal jika dibiarkan terus-menerus, kondisi ini akan berkembang menjadi pola kerja yang dianggap normal. Di titik itulah chaos mulai berubah menjadi budaya organisasi.</p><p class="mt-4"><b>Masalahnya Bukan Orang, Melainkan Sistem</b></p><p class="mt-4">Ketika performa bisnis menurun, banyak pemimpin langsung berfokus pada kualitas SDM. Mereka merekrut orang baru, mengganti manajer, atau melakukan restrukturisasi organisasi.</p><p class="mt-4">Sayangnya, langkah tersebut tidak selalu menyelesaikan masalah. Dalam banyak kasus, individu yang dianggap kurang kompeten sebenarnya bekerja di dalam sistem yang memang tidak dirancang untuk menghasilkan kinerja yang konsisten.</p><p class="mt-4">Karakteristik organisasi seperti ini biasanya mudah dikenali:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Struktur organisasi ada, tetapi tidak benar-benar dijalankan.</li><li>Job description tersedia, tetapi tidak menjadi acuan kerja.</li><li>SOP dibuat, tetapi tidak digunakan dalam pengambilan keputusan.</li><li>Rapat berlangsung rutin, tetapi tidak menghasilkan akuntabilitas yang jelas.</li><li>Target ditetapkan, tetapi tidak didukung oleh mekanisme monitoring yang efektif.</li></ul><p class="mt-4">Akibatnya, organisasi berjalan dengan mengandalkan komunikasi informal, kedekatan personal, dan intervensi langsung dari pimpinan.</p><p class="mt-4">Model seperti ini mungkin masih efektif ketika perusahaan berukuran kecil. Namun saat bisnis berkembang, kompleksitas akan tumbuh jauh lebih cepat dibanding kemampuan organisasi untuk mengelolanya.</p><p class="mt-4"><b>Dampak Yang Sering Tidak Terlihat</b></p><p class="mt-4">Organizational chaos tidak selalu langsung terlihat dalam laporan keuangan. Namun dampaknya perlahan menggerogoti fondasi bisnis.</p><p class="mt-4">Dari sisi produktivitas, banyak waktu terbuang untuk klarifikasi, koordinasi ulang, dan penyelesaian konflik yang sebenarnya bisa dicegah sejak awal.</p><p class="mt-4">Dari sisi profitabilitas, muncul biaya tersembunyi berupa pekerjaan yang harus diulang (rework), keterlambatan proyek, kesalahan operasional, hingga keputusan yang kurang efektif.</p><p class="mt-4">Sementara dari sisi budaya organisasi, karyawan mulai kehilangan kejelasan mengenai prioritas dan ekspektasi. Mereka bekerja keras, tetapi merasa hasil yang diperoleh tidak sebanding dengan usaha yang dikeluarkan.</p><p class="mt-4">Yang paling berbahaya, kondisi ini menghambat pertumbuhan bisnis. Setiap ekspansi justru menambah kompleksitas dan memperbesar kekacauan yang sudah ada.</p><p class="mt-4">Dalam situasi seperti ini, pertumbuhan bukan lagi menjadi aset. Pertumbuhan justru berubah menjadi sumber tekanan baru.</p><p class="mt-4"><b>Empat Langkah Mengurangi Organizational Chaos</b></p><p class="mt-4">Sebelum berbicara tentang ekspansi atau pertumbuhan yang lebih agresif, ada empat area penting yang perlu dievaluasi.</p><p class="mt-4"><b>1. Perjelas Akuntabilitas</b></p><p class="mt-4">Setiap fungsi harus memahami siapa yang bertanggung jawab atas keputusan, pelaksanaan, dan hasil akhir. Kejelasan akuntabilitas jauh lebih penting dibanding menambah jumlah rapat koordinasi.</p><p class="mt-4"><b>2. Perkuat Tata Kelola</b></p><p class="mt-4">Tata kelola (governance) bukan hanya kebutuhan perusahaan besar. Perusahaan yang sedang berkembang juga membutuhkan kejelasan otorisasi, mekanisme pengambilan keputusan, serta sistem kontrol internal yang efektif. Di sinilah peran RACI dan Level of Authority menjadi sangat penting.</p><p class="mt-4"><b>3. Standarisasi Proses Kritis</b></p><p class="mt-4">Tidak semua aktivitas harus dibuat birokratis. Fokuslah pada proses-proses yang memiliki dampak langsung terhadap kualitas layanan, risiko operasional, dan pencapaian target bisnis.</p><p class="mt-4"><b>4. Bangun Sistem, Bukan Ketergantungan</b></p><p class="mt-4">Organisasi yang sehat tidak bergantung pada satu individu, bahkan pada pendirinya sekalipun. Tujuan akhirnya adalah membangun sistem yang mampu menghasilkan kinerja yang konsisten meskipun kompleksitas bisnis terus meningkat.</p><p class="mt-4"><b>Kesibukan Belum Tentu Kemajuan</b></p><p class="mt-4">Banyak organisasi terlihat sangat sibuk, tetapi tidak semuanya bergerak secara efektif. Kesibukan sering kali menciptakan ilusi kemajuan. Padahal di balik aktivitas yang padat, bisa saja terdapat masalah mendasar dalam struktur, tata kelola, pengambilan keputusan, maupun eksekusi organisasi. Karena itu, pertanyaan yang perlu diajukan setiap pemimpin bukanlah seberapa sibuk organisasinya saat ini.</p><p class="mt-4">Pertanyaannya adalah: apakah organisasi tersebut benar-benar dirancang untuk bertumbuh secara berkelanjutan?</p><p class="mt-4">Pada akhirnya, performa bisnis tidak dibangun oleh kerja keras semata. Performa yang berkelanjutan selalu lahir dari sistem yang tepat.</p><p class="mt-4">Seiring semakin kompleksnya tantangan bisnis, diskusi mengenai desain organisasi, tata kelola, dan efektivitas sistem kerja akan menjadi semakin relevan.</p><div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'><p class='text-amber-900'><b>Kunci Keberlanjutan:</b> Kesibukan sering kali memberikan ilusi kemajuan. Padahal di balik aktivitas yang padat, bisa saja terdapat masalah mendasar dalam struktur, tata kelola, pengambilan keputusan, dan eksekusi organisasi.</p></div>`,
                 tags: ["Growth Organization", "Organization Chaos", "Hidden Cost"]
             },
             {
@@ -628,73 +370,8 @@
                 date: "17 Juni 2026",
                 img: "TCUA.jpeg?w=800",
                 excerpt: "In many organizations, failure is rarely caused by a lack of talent, technology, or strategy. More often, it emerges from something far less visible: undefined authority.",
-                content: `
-                    <p>When authority is unclear, decisions slow down, accountability becomes blurred, and teams begin operating based on assumptions rather than alignment. The organization may appear functional on the surface, yet underneath, energy is being consumed by confusion, duplication, and hesitation.</p>
-                     <p class="mt-4"><b>Core Insight</b></p>
-                     <p class="mt-4">Authority is not about power. It is about clarity.</p>
-                     <p class="mt-4">The most effective organizations are not necessarily those with the smartest people, but those where everyone understands:</p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Who can decide.</li>
-                        <li>Who must be consulted.</li>
-                        <li>Who is accountable for outcomes.</li>
-                        <li>Who owns the final approval.</li>
-                     </ul>
-                     <p class="mt-4">Without these boundaries, employees spend excessive time navigating politics instead of solving problems.</p>
-                     <p class="mt-4">Ironically, many leaders believe that leaving authority flexible promotes collaboration. In reality, undefined authority often creates the opposite effect. When nobody knows who owns a decision, everyone becomes cautious, meetings multiply, and progress stalls.</p>
-                     <p class="mt-4"><b>What Most People Miss</b></p>
-                     <p class="mt-4">Most organizations recognize the cost of poor decisions.</p>
-                     <p class="mt-4">Few recognize the cost of <b>delayed decisions.</b></p>
-                     <p class="mt-4">A mediocre decision made quickly can often be corrected. A decision that is endlessly postponed because authority is unclear creates a much larger organizational cost:</p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Lost opportunities.</li>
-                        <li>Tanggung jawab antar fungsi tidak jelas.</li>
-                        <li>Reduced responsiveness.</li>
-                        <li>Employee frustration.</li>
-                        <li>Customer dissatisfaction.</li>
-                        <li>Declining trust in leadership.</li>
-                    </ul>
-                    <p class="mt-4">Over time, people stop asking, "What is the right decision?" and start asking, "Who is allowed to make it?</p>                    
-                    <p class="mt-4">That shift is a warning sign that governance has become an obstacle rather than an enabler.</p>
-                    <p class="mt-4"><b>Why It Matters Now</b></p>
-                    <p class="mt-4">As organizations become more digital, distributed, and cross-functional, authority structures are becoming increasingly complex.</p>
-                    <p class="mt-4">Projects now involve multiple departments, external partners, remote teams, AI systems, and regulatory requirements. In this environment, informal assumptions about authority no longer scale.</p>
-                    <p class="mt-4">Organizations that thrive in this complexity are not those with more rules. They are those with greater decision clarity.</p>
-                    <p class="mt-4">The future competitive advantage may not come from faster technology alone, but from faster decision-making enabled by well-defined authority.</p>
-                    <p class="mt-4"><b>The Hidden Organizational Cost</b></p>
-                    <p class="mt-4">Undefined authority creates several invisible expenses:</p>
-                    <p class="mt-4"><b>Decision Debt</b></p>
-                    <p class="mt-4">Unresolved decisions accumulate over time, creating bottlenecks that slow future initiatives.</p>
-                    <p class="mt-4"><b>Accountability Gaps</b></p>
-                    <p class="mt-4">When ownership is unclear, failures become collective, making learning and improvement difficult.</p>
-                    <p class="mt-4"><b>Leadership Dependency</b></p>
-                    <p class="mt-4">Teams become overly reliant on senior leaders for routine decisions, limiting scalability.</p>
-                    <p class="mt-4"><b>Trust Erosion</b></p>
-                    <p class="mt-4">Employees lose confidence when responsibilities and authority appear inconsistent.</p>
-                    <p class="mt-4"><b>Innovation Suppression</b></p>
-                    <p class="mt-4">People avoid taking initiative because they are uncertain about their decision boundaries.</p>
-                    <p class="mt-4"><b>Indonesian Perspective</b></p>
-                    <p class="mt-4">Dalam banyak organisasi, masalah sebenarnya bukan kurangnya kompetensi, melainkan ketidakjelasan mengenai siapa yang berwenang mengambil keputusan. Akibatnya, proses menjadi lambat, tanggung jawab menjadi kabur, dan budaya saling menunggu mulai terbentuk.</p>
-                    <p class="mt-4">Ketika authority tidak didefinisikan dengan jelas, organisasi tanpa sadar menciptakan biaya yang tidak terlihat: waktu yang terbuang, peluang yang hilang, dan turunnya kepercayaan terhadap kepemimpinan.</p>
-                    <p class="mt-4"><b>Practical Implications</b></p>
-                    <p class="mt-4">Leaders should regularly ask:</p>                    
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Which decisions currently have unclear ownership?</li>
-                        <li>Where are approvals creating unnecessary delays?</li>
-                        <li>Are accountability and authority aligned?</li>
-                        <li>Do employees know the limits of their decision-making authority?</li>
-                        <li>Are governance structures enabling speed or creating friction?</li>
-                    </ul>
-                    <p class="mt-4">Organizations that answer these questions honestly often discover that their biggest inefficiencies are not operational—they are structural.</p>
-                    <p class="mt-4"><b>Key Takeaway</b></p>
-                    <p class="mt-4">Undefined authority is not a governance issue alone; it is a performance issue.</p>
-                    <p class="mt-4">Every unclear decision owner creates friction. Every ambiguous approval path creates delay. Every accountability gap creates risk.</p>
-                    <p class="mt-4">Organizations move at the speed of their decision-making, and decision-making moves at the speed of authority clarity.</p>
-                    <p class="mt-4">The cost of undefined authority is rarely visible on a financial statement, but it is often one of the most expensive problems an organization carries.</p>
-                 
-                    <div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'>
-                        <p class='text-amber-900'><b>Kunci Keberlanjutan:</b> Continous improvement is a habit, not a one-time effort</p>
-                    </div>
-                `,
+                slug: "The-Cost-of-Undefined-Authority",
+                content: `<p>When authority is unclear, decisions slow down, accountability becomes blurred, and teams begin operating based on assumptions rather than alignment. The organization may appear functional on the surface, yet underneath, energy is being consumed by confusion, duplication, and hesitation.</p><p class="mt-4"><b>Core Insight</b></p><p class="mt-4">Authority is not about power. It is about clarity.</p><p class="mt-4">The most effective organizations are not necessarily those with the smartest people, but those where everyone understands:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Who can decide.</li><li>Who must be consulted.</li><li>Who is accountable for outcomes.</li><li>Who owns the final approval.</li></ul><p class="mt-4">Without these boundaries, employees spend excessive time navigating politics instead of solving problems.</p><p class="mt-4">Ironically, many leaders believe that leaving authority flexible promotes collaboration. In reality, undefined authority often creates the opposite effect. When nobody knows who owns a decision, everyone becomes cautious, meetings multiply, and progress stalls.</p><p class="mt-4"><b>What Most People Miss</b></p><p class="mt-4">Most organizations recognize the cost of poor decisions.</p><p class="mt-4">Few recognize the cost of <b>delayed decisions.</b></p><p class="mt-4">A mediocre decision made quickly can often be corrected. A decision that is endlessly postponed because authority is unclear creates a much larger organizational cost:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Lost opportunities.</li><li>Tanggung jawab antar fungsi tidak jelas.</li><li>Reduced responsiveness.</li><li>Employee frustration.</li><li>Customer dissatisfaction.</li><li>Declining trust in leadership.</li></ul><p class="mt-4">Over time, people stop asking, "What is the right decision?" and start asking, "Who is allowed to make it?</p><p class="mt-4">That shift is a warning sign that governance has become an obstacle rather than an enabler.</p><p class="mt-4"><b>Why It Matters Now</b></p><p class="mt-4">As organizations become more digital, distributed, and cross-functional, authority structures are becoming increasingly complex.</p><p class="mt-4">Projects now involve multiple departments, external partners, remote teams, AI systems, and regulatory requirements. In this environment, informal assumptions about authority no longer scale.</p><p class="mt-4">Organizations that thrive in this complexity are not those with more rules. They are those with greater decision clarity.</p><p class="mt-4">The future competitive advantage may not come from faster technology alone, but from faster decision-making enabled by well-defined authority.</p><p class="mt-4"><b>The Hidden Organizational Cost</b></p><p class="mt-4">Undefined authority creates several invisible expenses:</p><p class="mt-4"><b>Decision Debt</b></p><p class="mt-4">Unresolved decisions accumulate over time, creating bottlenecks that slow future initiatives.</p><p class="mt-4"><b>Accountability Gaps</b></p><p class="mt-4">When ownership is unclear, failures become collective, making learning and improvement difficult.</p><p class="mt-4"><b>Leadership Dependency</b></p><p class="mt-4">Teams become overly reliant on senior leaders for routine decisions, limiting scalability.</p><p class="mt-4"><b>Trust Erosion</b></p><p class="mt-4">Employees lose confidence when responsibilities and authority appear inconsistent.</p><p class="mt-4"><b>Innovation Suppression</b></p><p class="mt-4">People avoid taking initiative because they are uncertain about their decision boundaries.</p><p class="mt-4"><b>Indonesian Perspective</b></p><p class="mt-4">Dalam banyak organisasi, masalah sebenarnya bukan kurangnya kompetensi, melainkan ketidakjelasan mengenai siapa yang berwenang mengambil keputusan. Akibatnya, proses menjadi lambat, tanggung jawab menjadi kabur, dan budaya saling menunggu mulai terbentuk.</p><p class="mt-4">Ketika authority tidak didefinisikan dengan jelas, organisasi tanpa sadar menciptakan biaya yang tidak terlihat: waktu yang terbuang, peluang yang hilang, dan turunnya kepercayaan terhadap kepemimpinan.</p><p class="mt-4"><b>Practical Implications</b></p><p class="mt-4">Leaders should regularly ask:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Which decisions currently have unclear ownership?</li><li>Where are approvals creating unnecessary delays?</li><li>Are accountability and authority aligned?</li><li>Do employees know the limits of their decision-making authority?</li><li>Are governance structures enabling speed or creating friction?</li></ul><p class="mt-4">Organizations that answer these questions honestly often discover that their biggest inefficiencies are not operational—they are structural.</p><p class="mt-4"><b>Key Takeaway</b></p><p class="mt-4">Undefined authority is not a governance issue alone; it is a performance issue.</p><p class="mt-4">Every unclear decision owner creates friction. Every ambiguous approval path creates delay. Every accountability gap creates risk.</p><p class="mt-4">Organizations move at the speed of their decision-making, and decision-making moves at the speed of authority clarity.</p><p class="mt-4">The cost of undefined authority is rarely visible on a financial statement, but it is often one of the most expensive problems an organization carries.</p><div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'><p class='text-amber-900'><b>Kunci Keberlanjutan:</b> Continous improvement is a habit, not a one-time effort</p></div>`,
                 tags: ["Organizational Design", "Leadership Clarity", "Decision Making", "Governance", "Business Performance"]
             }
         ];
@@ -702,15 +379,77 @@
         let currentCat = 'all', searchQ = '';
 
         function init() {
+            // Check URL hash for article routing
+            handleRoute();
+
+            // Listen for hash changes
+            window.addEventListener('hashchange', handleRoute);
+
             renderGrid();
             lucide.createIcons();
+        }
+
+        function handleRoute() {
+            const hash = window.location.hash;
+            if (hash && hash.startsWith('#/')) {
+                const slug = hash.substring(2);
+                const article = articles.find(a => a.slug === slug);
+                if (article) {
+                    showArticle(article);
+                } else {
+                    goHome();
+                }
+            } else {
+                showHome();
+            }
+        }
+
+        function showHome() {
+            document.getElementById('heroSection').classList.remove('hidden');
+            document.getElementById('categoriesSection').classList.remove('hidden');
+            document.getElementById('mainContent').classList.remove('hidden');
+            document.getElementById('homeFooter').classList.remove('hidden');
+            document.getElementById('articlePage').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            document.title = 'ISLA Insight Series';
+        }
+
+        function showArticle(article) {
+            document.getElementById('heroSection').classList.add('hidden');
+            document.getElementById('categoriesSection').classList.add('hidden');
+            document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('homeFooter').classList.add('hidden');
+            document.getElementById('articlePage').classList.remove('hidden');
+            document.body.style.overflow = 'auto';
+
+            document.getElementById('pageImg').src = article.img;
+            document.getElementById('pageCat').textContent = article.catLabel;
+            document.getElementById('pageTitle').textContent = article.title;
+            document.getElementById('pageDate').textContent = article.date;
+            document.getElementById('pageContent').innerHTML = article.content;
+            document.title = article.title + ' | ISLA Insight';
+
+            window.scrollTo(0, 0);
+        }
+
+        function goHome() {
+            window.location.hash = '';
+            showHome();
+            window.scrollTo(0, 0);
+        }
+
+        function openArticle(id) {
+            const article = articles.find(a => a.id === id);
+            if (article) {
+                window.location.hash = '#/' + article.slug;
+            }
         }
 
         function renderGrid() {
             const grid = document.getElementById('articlesGrid');
             grid.innerHTML = '';
             const filtered = articles.filter(a => (currentCat === 'all' || a.cat === currentCat) && (searchQ === '' || a.title.toLowerCase().includes(searchQ.toLowerCase())));
-            
+
             filtered.forEach(a => {
                 grid.innerHTML += `
                     <article class="group cursor-pointer bg-white rounded-xl overflow-hidden shadow border border-stone-200 hover:shadow-lg transition" onclick="openArticle(${a.id})">
@@ -750,33 +489,6 @@
 
         function toggleSearch() {
             document.getElementById('searchBar').classList.toggle('hidden');
-        }
-
-        // Buka artikel di halaman baru (bukan modal)
-        function openArticle(id) {
-            const a = articles.find(x => x.id === id);
-            if (!a) return;
-            
-            // Sembunyikan halaman utama
-            document.body.style.overflow = 'hidden';
-            
-            // Isi konten halaman artikel
-            document.getElementById('pageImg').src = a.img;
-            document.getElementById('pageCat').textContent = a.catLabel;
-            document.getElementById('pageTitle').textContent = a.title;
-            document.getElementById('pageDate').textContent = a.date;
-            document.getElementById('pageContent').innerHTML = a.content;
-            
-            // Tampilkan halaman artikel
-            document.getElementById('articlePage').classList.remove('hidden');
-            window.scrollTo(0, 0);
-        }
-
-        // Tutup halaman artikel, kembali ke daftar
-        function closeArticle() {
-            document.getElementById('articlePage').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-            window.scrollTo(0, 0);
         }
 
         function showFramework() {
