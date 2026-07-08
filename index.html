@@ -3,7 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ISLA Insight Series</title>
+    <title>ISLA Insight Series — Membangun Kepemimpinan Strategis yang Berkelanjutan</title>
+    
+    <!-- Meta Description & Keywords -->
+    <meta name="description" content="ISLA Insight Series — Kumpulan riset mendalam tentang arsitektur organisasi modern, sistem kepemimpinan, tata kelola strategis, dan dampak transformasi digital untuk organisasi Indonesia.">
+    <meta name="keywords" content="kepemimpinan strategis, arsitektur organisasi, tata kelola perusahaan, transformasi digital, leadership Indonesia, sistem kepemimpinan, organizational design">
+    <meta name="author" content="Yanto Goutama">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+    <meta property="og:title" content="ISLA Insight Series — Membangun Kepemimpinan Strategis yang Berkelanjutan">
+    <meta property="og:description" content="Kumpulan riset mendalam tentang arsitektur organisasi modern, sistem kepemimpinan, tata kelola strategis, dan dampak transformasi digital.">
+    <meta property="og:image" content="https://domain-anda.com/Founder.jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://domain-anda.com/">
+    <meta property="og:site_name" content="ISLA Insight Series">
+    <meta property="og:locale" content="id_ID">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ISLA Insight Series — Membangun Kepemimpinan Strategis yang Berkelanjutan">
+    <meta name="twitter:description" content="Kumpulan riset mendalam tentang arsitektur organisasi modern, sistem kepemimpinan, dan transformasi digital.">
+    <meta name="twitter:image" content="https://domain-anda.com/Founder.jpeg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://domain-anda.com/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo-isla.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -47,7 +77,12 @@
                     <button onclick="scrollToContent()" class="px-6 py-3 bg-amber-600 hover:bg-amber-700 rounded-lg font-semibold">Jelajahi Insight</button>
                     <button onclick="showFramework()" class="px-6 py-3 border border-white/20 hover:bg-white/10 rounded-lg">Lihat Framework</button>
                 </div>
-                <div class="mt-8 pt-6 border-t border-white/10 flex items-center gap-3">
+                <!-- JUMLAH PENGUNJUNG HALAMAN DEPAN -->
+                <div class="mt-8 flex items-center gap-2 text-stone-400 text-sm">
+                    <i data-lucide="eye" class="w-4 h-4"></i>
+                    <span id="visitorCount">Memuat...</span>
+                </div>
+                <div class="mt-4 pt-6 border-t border-white/10 flex items-center gap-3">
                     <div class="w-10 h-10 bg-gradient-to-br from-amber-400 to-amber-600 rounded-full flex items-center justify-center text-sm font-bold">YG</div>
                     <div>
                         <p class="font-semibold">Yanto Goutama</p>
@@ -124,6 +159,11 @@
             <img id="pageImg" src="" class="w-full h-64 md:h-80 object-cover rounded-2xl mb-8 shadow-lg">
             <span id="pageCat" class="text-amber-600 text-sm font-bold uppercase tracking-wider"></span>
             <h1 id="pageTitle" class="font-serif text-3xl md:text-4xl font-bold mt-2 mb-6"></h1>
+            <!-- JUMLAH PEMBACA ARTIKEL -->
+            <div class="flex items-center gap-2 text-stone-500 text-sm mb-6">
+                <i data-lucide="eye" class="w-4 h-4"></i>
+                <span id="articleReaderCount">Memuat...</span>
+            </div>
             <div class="flex items-center gap-4 mb-8 text-sm text-stone-500 pb-6 border-b border-stone-200">
                 <div class="flex items-center gap-2">
                     <div class="w-8 h-8 bg-gradient-to-br from-amber-600 to-orange-700 rounded-full flex items-center justify-center text-white text-xs font-bold">YG</div>
@@ -228,7 +268,54 @@
     </div>
 
     <script>
-        // Data - ISLA Insight Series
+        // ==================== VISITOR COUNTER SYSTEM ====================
+        const VISITOR_KEY = 'isla_home_visitors';
+        const ARTICLE_READERS_KEY = 'isla_article_readers';
+        const VISITED_TODAY_KEY = 'isla_visited_today';
+
+        // Format angka dengan separator ribuan
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // Cek apakah sudah visit hari ini (1 visit per hari per browser)
+        function hasVisitedToday() {
+            const lastVisit = localStorage.getItem(VISITED_TODAY_KEY);
+            const today = new Date().toDateString();
+            return lastVisit === today;
+        }
+
+        // Catat kunjungan homepage
+        function trackHomeVisit() {
+            if (!hasVisitedToday()) {
+                let count = parseInt(localStorage.getItem(VISITOR_KEY) || '0');
+                count++;
+                localStorage.setItem(VISITOR_KEY, count.toString());
+                localStorage.setItem(VISITED_TODAY_KEY, new Date().toDateString());
+            }
+            const count = parseInt(localStorage.getItem(VISITOR_KEY) || '0');
+            const el = document.getElementById('visitorCount');
+            if (el) el.textContent = formatNumber(count) + ' kunjungan';
+        }
+
+        // Catat pembaca artikel
+        function trackArticleRead(articleId) {
+            const key = ARTICLE_READERS_KEY + '_' + articleId;
+            let count = parseInt(localStorage.getItem(key) || '0');
+            count++;
+            localStorage.setItem(key, count.toString());
+            return count;
+        }
+
+        // Tampilkan jumlah pembaca artikel
+        function showArticleReaders(articleId) {
+            const key = ARTICLE_READERS_KEY + '_' + articleId;
+            const count = parseInt(localStorage.getItem(key) || '0');
+            const el = document.getElementById('articleReaderCount');
+            if (el) el.textContent = formatNumber(count) + ' kali dibaca';
+        }
+
+        // ==================== DATA ARTIKEL ====================
         const articles = [
             {
                 id: 1,
