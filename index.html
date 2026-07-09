@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ISLA Insight Series — Membangun Kepemimpinan Strategis yang Berkelanjutan</title>
-    
+
     <!-- Meta Description & Keywords -->
     <meta name="description" content="ISLA Insight Series — Kumpulan riset mendalam tentang arsitektur organisasi modern, sistem kepemimpinan, tata kelola strategis, dan dampak transformasi digital untuk organisasi Indonesia.">
     <meta name="keywords" content="kepemimpinan strategis, arsitektur organisasi, tata kelola perusahaan, transformasi digital, leadership Indonesia, sistem kepemimpinan, organizational design">
     <meta name="author" content="Yanto Goutama">
     <meta name="robots" content="index, follow">
-    
+
     <!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
     <meta property="og:title" content="ISLA Insight Series — Membangun Kepemimpinan Strategis yang Berkelanjutan">
     <meta property="og:description" content="Kumpulan riset mendalam tentang arsitektur organisasi modern, sistem kepemimpinan, tata kelola strategis, dan dampak transformasi digital.">
@@ -21,19 +21,19 @@
     <meta property="og:url" content="https://domain-anda.com/">
     <meta property="og:site_name" content="ISLA Insight Series">
     <meta property="og:locale" content="id_ID">
-    
+
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="ISLA Insight Series — Membangun Kepemimpinan Strategis yang Berkelanjutan">
     <meta name="twitter:description" content="Kumpulan riset mendalam tentang arsitektur organisasi modern, sistem kepemimpinan, dan transformasi digital.">
     <meta name="twitter:image" content="https://domain-anda.com/Founder.jpeg">
-    
+
     <!-- Canonical URL -->
     <link rel="canonical" href="https://domain-anda.com/">
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="logo-isla.png">
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -43,6 +43,7 @@
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
+<base target="_blank">
 <base target="_blank">
 </head>
 <body class="text-stone-900">
@@ -268,17 +269,20 @@
     </div>
 
     <script>
-        // ==================== VISITOR COUNTER SYSTEM ====================
+        // ============================================================
+        // VISITOR COUNTER SYSTEM (localStorage)
+        // ============================================================
         const VISITOR_KEY = 'isla_home_visitors';
         const ARTICLE_READERS_KEY = 'isla_article_readers';
         const VISITED_TODAY_KEY = 'isla_visited_today';
+        const CURRENT_ARTICLE_KEY = 'isla_current_article';
 
-        // Format angka dengan separator ribuan
+        // Format angka dengan separator ribuan (Indonesia)
         function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         }
 
-        // Cek apakah sudah visit hari ini (1 visit per hari per browser)
+        // Cek apakah sudah visit hari ini (1 visit per hari per browser session)
         function hasVisitedToday() {
             const lastVisit = localStorage.getItem(VISITED_TODAY_KEY);
             const today = new Date().toDateString();
@@ -298,13 +302,16 @@
             if (el) el.textContent = formatNumber(count) + ' kunjungan';
         }
 
-        // Catat pembaca artikel
+        // Catat pembaca artikel (hanya sekali per session per artikel)
         function trackArticleRead(articleId) {
+            const sessionKey = 'isla_read_article_' + articleId;
+            if (sessionStorage.getItem(sessionKey)) return; // sudah dibaca di session ini
+
             const key = ARTICLE_READERS_KEY + '_' + articleId;
             let count = parseInt(localStorage.getItem(key) || '0');
             count++;
             localStorage.setItem(key, count.toString());
-            return count;
+            sessionStorage.setItem(sessionKey, '1');
         }
 
         // Tampilkan jumlah pembaca artikel
@@ -315,7 +322,9 @@
             if (el) el.textContent = formatNumber(count) + ' kali dibaca';
         }
 
-        // ==================== DATA ARTIKEL ====================
+        // ============================================================
+        // DATA ARTIKEL
+        // ============================================================
         const articles = [
             {
                 id: 1,
@@ -470,71 +479,10 @@
                 img: "scalling.jpeg?w=800",
                 excerpt: "Most companies don't fail because they can't grow. They fail because they grow beyond the capacity of their own organization.",
                 slug: "Scalling-Without-Structure",
-				content: `
-                     <p>Everyone talks about scaling.</p>
-                     <p class="mt-4">Very few talk about what scaling actually exposes.</p>
-                     <p class="mt-4"><b>The uncomfortable truth is this:</b></p>
-                     <p class="mt-4">Growth doesn't create organizational problems. Growth reveals them.</p>
-		     <p class="mt-4">A company can survive with unclear roles, founder-driven decisions, weak accountability, and undocumented processes when there are only 20 people.</p>
-		     <p class="mt-4">At 100 people, those same weaknesses become operational friction.</p>
-		     <p class="mt-4">At 300 people, they become business risk.</p>
-		     <p class="mt-4">At 500 people, they become a serious threat to growth itself.</p>
-                     <p class="mt-4">The pattern usually looks like this:</p>
-                    <ul class='list-disc pl-5 my-3 space-y-2'>
-                        <li>Revenue grows faster than organizational capability.</li>
-                        <li>New hires are added faster than responsibilities are clarified.</li>
-                        <li>Managers spend more time solving daily issues than building systems.</li>
-                        <li>Decisions still depend on a few key individuals because authority was never truly delegated..</li>
-                        <li>Teams become busy, but not necessarily productive.</li>
-                     </ul>
-                     <p class="mt-4"> On the surface, the company looks successful.</p>                    
-                    <p class="mt-4"><b>Headcount increases.</b></p>
-                    <p class="mt-4">Sales numbers improve.</p>
-                    <p class="mt-4">New projects keep launching.</p>
-                    <p class="mt-4">But underneath, complexity is growing faster than control.</p>
-                    <p class="mt-4">And that's where the hidden cost begins.</p>
-	            <p class="mt-4"><b>The first cost is speed.</b></p>
-		    <p class="mt-4">What used to take one conversation now requires multiple meetings.</p>
-		    <p class="mt-4">Simple decisions become long approval chains.</p>
-		    <p class="mt-4">Execution slows down, even though more people have been hired.</p>
-		    <p class="mt-4"><b>The second cost is consistency.</b></p>
-		    <p class="mt-4">Different departments start operating with different interpretations of priorities.</p>
-		    <p class="mt-4">Customers receive different experiences.</p>
-		    <p class="mt-4">Managers create their own ways of working.</p>
-		    <p class="mt-4">The organization gradually becomes fragmented.</p>
-		    <p class="mt-4"><b>The third cost is leadership dependency.</b></p>
-		    <p class="mt-4">Founders and senior executives become the unofficial operating system of the company.</p>
-		    <p class="mt-4">Nothing important moves without their involvement.</p>
-		    <p class="mt-4">Ironically, the more the company grows, the less scalable the leadership model becomes.</p>
-		    <p class="mt-4"><b>The fourth cost is risk.</b></p>
-		    <p class="mt-4">Not compliance risk alone.</p>
-		    <p class="mt-4">Business risk.</p>
-		    <p class="mt-4">Because when critical knowledge, authority, and decision-making remain concentrated in a handful of people, the organization becomes fragile.</p>
-		    <p class="mt-4">One resignation.</p>
-		    <p class="mt-4">One burnout.</p>
-		    <p class="mt-4">One leadership transition.</p>
-		    <p class="mt-4">And suddenly performance drops significantly.</p>
-		    <p class="mt-4">What many organizations call a "people problem" is often a structural problem.</p>
-		    <p class="mt-4">What looks like poor execution is frequently unclear accountability.</p>
-		    <p class="mt-4">What looks like resistance to change is often confusion about authority.</p>
-		    <p class="mt-4">What looks like weak leadership in the middle layer is often a consequence of a system that never empowered managers to lead.</p>
-		    <p class="mt-4">This is why scaling should never be measured only by revenue growth.</p>
-		    <p class="mt-4">A more important question is:</p>
-		    <p class="mt-4">Can the organization produce the same quality of decisions, execution, and outcomes without relying on the same individuals?</p>
-		    <p class="mt-4">Because real scaling is not about becoming bigger.</p>
-		    <p class="mt-4">Real scaling is about becoming more capable, more predictable, and less dependent on heroes.</p>
-		    <p class="mt-4">Organizations don't fail because they grow too fast.</p>
-		    <p class="mt-4">Most fail because their structure grows much slower than their business.</p>
-    		    <p class="mt-4"> And eventually, the gap becomes too large to ignore.</p>
-    		    <p class="mt-4"> Menurut kalian, ketika perusahaan mulai mengalami growth yang agresif, apa yang biasanya lebih dulu retak: structure, decision-making, atau accountability?</p>
-		<p class="mt-4">Kalau kalian sedang melihat gejala-gejala seperti ini di organisasi kalian, DM saja. Biasanya masalahnya bukan ada di orangnya. Ada pola sistem yang lebih dalam yang perlu dibongkar sebelum growth berubah menjadi organizational chaos. 🚀</p>
-		<div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'>
-                     <p class='text-amber-900'><b>Kunci Keberlanjutan:</b> The real challenge is not growing the business. It's building an organization that can survive its own growth.</p>
-                    </div>
-                `,
+                content: `<p>Everyone talks about scaling.</p><p class="mt-4">Very few talk about what scaling actually exposes.</p><p class="mt-4"><b>The uncomfortable truth is this:</b></p><p class="mt-4">Growth doesn't create organizational problems. Growth reveals them.</p><p class="mt-4">A company can survive with unclear roles, founder-driven decisions, weak accountability, and undocumented processes when there are only 20 people.</p><p class="mt-4">At 100 people, those same weaknesses become operational friction.</p><p class="mt-4">At 300 people, they become business risk.</p><p class="mt-4">At 500 people, they become a serious threat to growth itself.</p><p class="mt-4">The pattern usually looks like this:</p><ul class='list-disc pl-5 my-3 space-y-2'><li>Revenue grows faster than organizational capability.</li><li>New hires are added faster than responsibilities are clarified.</li><li>Managers spend more time solving daily issues than building systems.</li><li>Decisions still depend on a few key individuals because authority was never truly delegated..</li><li>Teams become busy, but not necessarily productive.</li></ul><p class="mt-4"> On the surface, the company looks successful.</p><p class="mt-4"><b>Headcount increases.</b></p><p class="mt-4">Sales numbers improve.</p><p class="mt-4">New projects keep launching.</p><p class="mt-4">But underneath, complexity is growing faster than control.</p><p class="mt-4">And that's where the hidden cost begins.</p><p class="mt-4"><b>The first cost is speed.</b></p><p class="mt-4">What used to take one conversation now requires multiple meetings.</p><p class="mt-4">Simple decisions become long approval chains.</p><p class="mt-4">Execution slows down, even though more people have been hired.</p><p class="mt-4"><b>The second cost is consistency.</b></p><p class="mt-4">Different departments start operating with different interpretations of priorities.</p><p class="mt-4">Customers receive different experiences.</p><p class="mt-4">Managers create their own ways of working.</p><p class="mt-4">The organization gradually becomes fragmented.</p><p class="mt-4"><b>The third cost is leadership dependency.</b></p><p class="mt-4">Founders and senior executives become the unofficial operating system of the company.</p><p class="mt-4">Nothing important moves without their involvement.</p><p class="mt-4">Ironically, the more the company grows, the less scalable the leadership model becomes.</p><p class="mt-4"><b>The fourth cost is risk.</b></p><p class="mt-4">Not compliance risk alone.</p><p class="mt-4">Business risk.</p><p class="mt-4">Because when critical knowledge, authority, and decision-making remain concentrated in a handful of people, the organization becomes fragile.</p><p class="mt-4">One resignation.</p><p class="mt-4">One burnout.</p><p class="mt-4">One leadership transition.</p><p class="mt-4">And suddenly performance drops significantly.</p><p class="mt-4">What many organizations call a "people problem" is often a structural problem.</p><p class="mt-4">What looks like poor execution is frequently unclear accountability.</p><p class="mt-4">What looks like resistance to change is often confusion about authority.</p><p class="mt-4">What looks like weak leadership in the middle layer is often a consequence of a system that never empowered managers to lead.</p><p class="mt-4">This is why scaling should never be measured only by revenue growth.</p><p class="mt-4">A more important question is:</p><p class="mt-4">Can the organization produce the same quality of decisions, execution, and outcomes without relying on the same individuals?</p><p class="mt-4">Because real scaling is not about becoming bigger.</p><p class="mt-4">Real scaling is about becoming more capable, more predictable, and less dependent on heroes.</p><p class="mt-4">Organizations don't fail because they grow too fast.</p><p class="mt-4">Most fail because their structure grows much slower than their business.</p><p class="mt-4"> And eventually, the gap becomes too large to ignore.</p><p class="mt-4"> Menurut kalian, ketika perusahaan mulai mengalami growth yang agresif, apa yang biasanya lebih dulu retak: structure, decision-making, atau accountability?</p><p class="mt-4">Kalau kalian sedang melihat gejala-gejala seperti ini di organisasi kalian, DM saja. Biasanya masalahnya bukan ada di orangnya. Ada pola sistem yang lebih dalam yang perlu dibongkar sebelum growth berubah menjadi organizational chaos. 🚀</p><div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'><p class='text-amber-900'><b>Kunci Keberlanjutan:</b> The real challenge is not growing the business. It's building an organization that can survive its own growth.</p></div>`,
                 tags: ["Organizational Design ", " Business Scaling ", " Governance", "Leadership", "Organizational Development"]
             },
-			{
+            {
                 id: 14,
                 title: "The Founder Dependency Problem",
                 cat: "org-architecture",
@@ -543,22 +491,7 @@
                 img: "Founder.jpeg?w=800",
                 excerpt: "A business that depends entirely on its founder is not truly scalable—it is merely surviving through individual capability. Sustainable organizations are built on systems, leadership, and institutional resilience rather than personal heroics.",
                 slug: "The-Founder-Dependency-Problem",
-				content: `
-                     <p>Many businesses begin with an extraordinary founder.</p>
-                     <p class="mt-4">Their vision, energy, and decision-making ability become the driving force behind the company's early success. However, what creates momentum in the startup phase can eventually become the organization's greatest limitation.</p>
-                     <p class="mt-4"><b>This is known as the Founder Dependency Problem.</b></p>
-                     <p class="mt-4">Founder dependency occurs when critical decisions, customer relationships, operational knowledge, and strategic direction remain concentrated in one individual. The organization functions efficiently only when the founder is actively involved. Once that person steps away—even temporarily—performance declines, decisions slow down, and uncertainty spreads throughout the business.</p>
-		     <p class="mt-4">While many founders view this as proof of their dedication, it often reflects an underlying leadership architecture that has not matured.</p>
-		     <p class="mt-4">High-performing organizations deliberately shift from person-centered leadership to system-centered leadership. Instead of relying on one exceptional individual, they invest in governance structures, documented processes, leadership development, delegation mechanisms, and succession planning. These elements create consistency regardless of who occupies a particular role.</p>
-		     <p class="mt-4">A founder should gradually evolve from being the primary operator into becoming the architect of the organization. Their highest value is no longer solving every problem personally but designing an environment where capable leaders can make sound decisions independently.</p>
-		     <p class="mt-4">This transition is uncomfortable because it requires trust, discipline, and the willingness to let others grow. Yet it is also the defining characteristic of organizations that survive beyond their founders.</p>
-                     <p class="mt-4">Dalam banyak perusahaan di Indonesia, founder masih menjadi pusat hampir seluruh keputusan penting. Akibatnya, organisasi sulit berkembang karena setiap proses harus menunggu persetujuan satu orang. Ketika sistem lebih bergantung pada individu daripada pada tata kelola yang baik, pertumbuhan akan selalu memiliki batas.</p>
-                    <p class="mt-4">Within the Integrated Strategic Leadership Architecture (ISLA) framework, organizational sustainability is measured not by how indispensable a founder becomes, but by how effectively leadership capability, governance, and decision-making are distributed across the organization. A resilient organization is one that continues to perform, adapt, and grow—even when its founder is no longer at the center of every decision.</p>                    
-                    <p class="mt-4">The ultimate measure of leadership is not creating followers who depend on you. It is building an organization that remains strong because of the systems and leaders you intentionally developed.</p>
-        <div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'>
-                     <p class='text-amber-900'><b>Kunci Keberlanjutan:</b> Sustainable organizations are built on systems, governance, and distributed leadership—not on the indispensability of a single individual.</p>
-                    </div>
-                `,
+                content: `<p>Many businesses begin with an extraordinary founder.</p><p class="mt-4">Their vision, energy, and decision-making ability become the driving force behind the company's early success. However, what creates momentum in the startup phase can eventually become the organization's greatest limitation.</p><p class="mt-4"><b>This is known as the Founder Dependency Problem.</b></p><p class="mt-4">Founder dependency occurs when critical decisions, customer relationships, operational knowledge, and strategic direction remain concentrated in one individual. The organization functions efficiently only when the founder is actively involved. Once that person steps away—even temporarily—performance declines, decisions slow down, and uncertainty spreads throughout the business.</p><p class="mt-4">While many founders view this as proof of their dedication, it often reflects an underlying leadership architecture that has not matured.</p><p class="mt-4">High-performing organizations deliberately shift from person-centered leadership to system-centered leadership. Instead of relying on one exceptional individual, they invest in governance structures, documented processes, leadership development, delegation mechanisms, and succession planning. These elements create consistency regardless of who occupies a particular role.</p><p class="mt-4">A founder should gradually evolve from being the primary operator into becoming the architect of the organization. Their highest value is no longer solving every problem personally but designing an environment where capable leaders can make sound decisions independently.</p><p class="mt-4">This transition is uncomfortable because it requires trust, discipline, and the willingness to let others grow. Yet it is also the defining characteristic of organizations that survive beyond their founders.</p><p class="mt-4">Dalam banyak perusahaan di Indonesia, founder masih menjadi pusat hampir seluruh keputusan penting. Akibatnya, organisasi sulit berkembang karena setiap proses harus menunggu persetujuan satu orang. Ketika sistem lebih bergantung pada individu daripada pada tata kelola yang baik, pertumbuhan akan selalu memiliki batas.</p><p class="mt-4">Within the Integrated Strategic Leadership Architecture (ISLA) framework, organizational sustainability is measured not by how indispensable a founder becomes, but by how effectively leadership capability, governance, and decision-making are distributed across the organization. A resilient organization is one that continues to perform, adapt, and grow—even when its founder is no longer at the center of every decision.</p><p class="mt-4">The ultimate measure of leadership is not creating followers who depend on you. It is building an organization that remains strong because of the systems and leaders you intentionally developed.</p><div class='bg-amber-50 p-4 rounded border border-amber-200 my-6'><p class='text-amber-900'><b>Kunci Keberlanjutan:</b> Sustainable organizations are built on systems, governance, and distributed leadership—not on the indispensability of a single individual.</p></div>`,
                 tags: ["Organizational Development ", " ISLA Insight ", "Leadership"]
             }
         ];
@@ -599,6 +532,9 @@
             document.getElementById('articlePage').classList.add('hidden');
             document.body.style.overflow = 'auto';
             document.title = 'ISLA Insight Series';
+
+            // TRACK: Catat kunjungan homepage dan tampilkan
+            trackHomeVisit();
         }
 
         function showArticle(article) {
@@ -615,6 +551,10 @@
             document.getElementById('pageDate').textContent = article.date;
             document.getElementById('pageContent').innerHTML = article.content;
             document.title = article.title + ' | ISLA Insight';
+
+            // TRACK: Catat pembaca artikel dan tampilkan jumlahnya
+            trackArticleRead(article.id);
+            showArticleReaders(article.id);
 
             window.scrollTo(0, 0);
         }
